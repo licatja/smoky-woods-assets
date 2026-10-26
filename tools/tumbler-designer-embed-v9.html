@@ -1,0 +1,1071 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@700&family=Bebas+Neue&family=Playfair+Display:wght@700&family=Great+Vibes&family=Rye&family=Permanent+Marker&display=swap">
+<style>
+/* Layout: shop bench. Big tumbler on a lit stage at left, flat laser layout beneath it, settings rail at right. Stacks on phones. */
+#twapp {
+  --bg: #eceee8;
+  --surface: #f8f9f5;
+  --surface-2: #e2e5dc;
+  --ink: #1c221b;
+  --muted: #5a6355;
+  --line: #cfd5c7;
+  --accent: #4d7c2b;
+  --accent-ink: #ffffff;
+  --warn: #9a4f0c;
+  --warn-bg: #f6e7d6;
+  --stage-a: #e6e9e1;
+  --stage-b: #c3c9bc;
+  --focus: #2f6fd6;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #twapp {
+    --bg: #141813; --surface: #1c2119; --surface-2: #252b22; --ink: #e7eae2; --muted: #9ba393;
+    --line: #333a2d; --accent: #8cbd5f; --accent-ink: #0f130d; --warn: #f0b16b; --warn-bg: #3a2a18;
+    --stage-a: #2a3026; --stage-b: #0f120e; --focus: #7fb0ff; --tile-filter: invert(1); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] #twapp {
+  --bg: #141813; --surface: #1c2119; --surface-2: #252b22; --ink: #e7eae2; --muted: #9ba393;
+  --line: #333a2d; --accent: #8cbd5f; --accent-ink: #0f130d; --warn: #f0b16b; --warn-bg: #3a2a18;
+  --stage-a: #2a3026; --stage-b: #0f120e; --focus: #7fb0ff; --tile-filter: invert(1); color-scheme: dark;
+}
+
+#twapp { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 40px; }
+#twapp [hidden] { display: none !important; }
+#twapp *, #twapp *::before, #twapp *::after { box-sizing: border-box; }
+#twapp .tw-wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 20px; }
+#twapp header.tw-top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 24px; }
+#twapp .tw-brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+#twapp h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(34px, 6vw, 56px); line-height: .95; margin: 2px 0 0; letter-spacing: .01em; text-wrap: balance; }
+#twapp .tw-tag { color: var(--muted); max-width: 46ch; margin: 0; }
+#twapp .tw-main { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { #twapp .tw-main { grid-template-columns: minmax(0, 1fr); } }
+#twapp .tw-col { display: grid; gap: 16px; min-width: 0; }
+#twapp .tw-stage { position: relative; border-radius: 14px; overflow: hidden; background: radial-gradient(120% 90% at 50% 20%, var(--stage-a), var(--stage-b)); aspect-ratio: 4 / 4.2; max-height: 680px; width: 100%; touch-action: none; cursor: grab; }
+#twapp .tw-stage:active { cursor: grabbing; }
+#twapp .tw-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#twapp .tw-stage-top { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; pointer-events: none; }
+#twapp .tw-chip { pointer-events: auto; font-family: var(--f-mono); font-size: 12px; background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; color: var(--ink); }
+#twapp .tw-chip.tw-example { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+#twapp .tw-views { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+#twapp .tw-views button { font: 600 13px var(--f-body); padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 90%, transparent); color: var(--ink); cursor: pointer; }
+#twapp .tw-views button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+#twapp .tw-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+#twapp .tw-card h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; letter-spacing: .02em; margin: 0; display: flex; align-items: baseline; gap: 10px; }
+#twapp .tw-card h2 .tw-step { font-family: var(--f-mono); font-size: 12px; color: var(--muted); font-weight: 400; }
+#twapp .tw-hint { color: var(--muted); font-size: 13px; margin: 0; }
+#twapp .tw-flatbox { position: relative; width: 100%; border-radius: 8px; overflow: hidden; touch-action: none; background: var(--surface-2); }
+#twapp .tw-flatbox canvas { display: block; width: 100%; height: auto; }
+#twapp .tw-seg { display: flex; flex-wrap: wrap; gap: 6px; }
+#twapp .tw-seg button, #twapp .tw-btn { font: 600 14px var(--f-body); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; }
+#twapp .tw-seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+#twapp .tw-seg button:disabled { opacity: .45; cursor: not-allowed; }
+#twapp .tw-btn.tw-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+#twapp .tw-btn.tw-danger { color: var(--warn); }
+#twapp button:focus-visible, #twapp input:focus-visible, #twapp select:focus-visible, #twapp textarea:focus-visible, #twapp .tw-swatch:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+#twapp .tw-label { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+#twapp .tw-field { display: grid; gap: 6px; }
+#twapp .tw-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; }
+#twapp .tw-swatch { display: grid; justify-items: center; gap: 4px; padding: 6px 2px; border-radius: 8px; border: 1px solid transparent; background: none; color: var(--ink); cursor: pointer; font: 500 12px var(--f-body); }
+#twapp .tw-swatch span.tw-dot { width: 28px; height: 28px; border-radius: 50%; box-shadow: inset 0 -6px 10px rgba(0,0,0,.25), inset 0 4px 6px rgba(255,255,255,.25), 0 0 0 1px var(--line); }
+#twapp .tw-swatch[aria-pressed="true"] { border-color: var(--accent); background: var(--surface-2); }
+#twapp .tw-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#twapp .tw-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; }
+#twapp .tw-tile { border: 1px dashed var(--line); border-radius: 8px; background: var(--surface-2); padding: 8px; cursor: pointer; display: grid; gap: 4px; justify-items: center; color: var(--ink); font: 500 12px var(--f-body); }
+#twapp .tw-tile img { width: 100%; aspect-ratio: 1; object-fit: contain; filter: var(--tile-filter, none); }
+#twapp .tw-drop { border: 2px dashed var(--line); border-radius: 10px; padding: 14px; text-align: center; color: var(--muted); font-size: 13px; }
+#twapp .tw-drop.tw-over { border-color: var(--accent); color: var(--ink); }
+#twapp input[type="text"], #twapp input[type="email"], #twapp input[type="tel"], #twapp input[type="number"], #twapp textarea, #twapp select {
+  font: 15px var(--f-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; }
+#twapp textarea { resize: vertical; min-height: 64px; }
+#twapp input[type="range"] { width: 100%; accent-color: var(--accent); }
+#twapp .tw-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+#twapp .tw-warns { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+#twapp .tw-warns li { background: var(--warn-bg); color: var(--warn); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+#twapp .tw-code { font-family: var(--f-mono); font-size: 13px; background: var(--surface-2); border-radius: 6px; padding: 2px 8px; }
+#twapp .tw-dims { font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+#twapp details.tw-shop > summary { cursor: pointer; font-family: var(--f-display); font-weight: 600; font-size: 22px; letter-spacing: .02em; list-style: none; }
+#twapp details.tw-shop > summary::-webkit-details-marker { display: none; }
+#twapp details.tw-shop > summary::after { content: " +"; color: var(--muted); }
+#twapp details.tw-shop[open] > summary::after { content: " –"; }
+#twapp .tw-status { font-size: 13px; color: var(--accent); min-height: 1.2em; margin: 0; }
+#twapp .tw-mail { font-family: var(--f-mono); font-size: 12px; background: var(--surface-2); border-radius: 8px; padding: 10px; white-space: pre-wrap; word-break: break-all; max-height: 220px; overflow: auto; }
+#twapp .tw-how-sum { cursor: pointer; font-family: var(--f-display); font-weight: 600; font-size: 22px; letter-spacing: .02em; }
+#twapp .tw-steps { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 95ch; }
+#twapp .tw-steps b { font-weight: 600; }
+#twapp .tw-disclaimer { font-size: 13px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; margin: 0; }
+#twapp .tw-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+#twapp .tw-item { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); padding: 8px; display: grid; gap: 10px; min-width: 0; }
+#twapp .tw-item[data-sel="1"] { border-color: var(--accent); }
+#twapp .tw-item-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+#twapp .tw-item-name { flex: 1 1 150px; min-width: 0; text-align: left; font: 600 14px var(--f-body); background: none; border: 0; color: var(--ink); cursor: pointer; padding: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#twapp .tw-item-name small { color: var(--muted); font-weight: 400; margin-right: 8px; font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+#twapp .tw-item .tw-seg button, #twapp .tw-item .tw-btn { padding: 5px 10px; font-size: 13px; }
+#twapp .tw-seen { font-family: var(--f-mono); font-size: 11px; color: var(--accent); }
+#twapp .tw-inset { display: grid; gap: 12px; border-top: 1px solid var(--line); padding-top: 10px; min-width: 0; }
+#twapp .tw-h-sel { font-family: var(--f-display); font-weight: 600; font-size: 18px; margin: 0; }
+#twapp .tw-price { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); padding: 12px; display: grid; gap: 6px; font-variant-numeric: tabular-nums; }
+#twapp .tw-price-row { display: flex; justify-content: space-between; gap: 12px; }
+#twapp .tw-price-total { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 2px; font-family: var(--f-display); font-weight: 800; font-size: 28px; line-height: 1; }
+#twapp .tw-foot { color: var(--muted); font-size: 12px; text-align: center; }
+@media (prefers-reduced-motion: reduce) { #twapp * { transition: none !important; } }
+</style>
+
+<div id="twapp">
+<div class="tw-wrap">
+  <header class="tw-top">
+    <div>
+      <div class="tw-brand">Smoky Woods · Madisonville, TN</div>
+      <h1>Tumbler Designer</h1>
+    </div>
+    <p class="tw-tag">Pick a tumbler, add your art, and see exactly where the laser takes the paint off. Measure twice, engrave once.</p>
+  </header>
+
+  <details class="tw-card tw-how" id="tw-how" open>
+    <summary class="tw-how-sum">How it works</summary>
+    <ol class="tw-steps">
+      <li><b>Pick your tumbler.</b> Size, handle, color and the metal under the coat, in the Tumbler box.</li>
+      <li><b>Pick where it's engraved.</b> Front, front and back, or all the way around.</li>
+      <li><b>Add art and words.</b> Upload a picture, choose one of our designs, or tap Add text. Everything you add is listed under Your design. Click an item there to change it.</li>
+      <li><b>Arrange it on the Layout.</b> That's the tumbler unrolled flat. Drag to move, pull the corner square to resize, and drag the round dot to rotate. With front + back or full wrap chosen, each item in Your design has Front and Back buttons, and the tumbler turns to show it. You can also turn it yourself with the buttons beneath it or by dragging.</li>
+      <li><b>Send it to Jim.</b> Add your name and email. Jim reviews every design and replies before anything is made.</li>
+    </ol>
+  </details>
+
+  <div class="tw-main">
+    <div class="tw-col">
+      <div class="tw-stage" id="tw-stage" aria-label="Tumbler preview. Drag to turn it.">
+        <canvas id="tw-view"></canvas>
+        <div class="tw-stage-top">
+          <span class="tw-chip" id="tw-summary">20 oz · Navy · Stainless</span>
+          <span class="tw-chip tw-example" id="tw-example">Example design. Make it yours.</span>
+        </div>
+        <div class="tw-views" role="group" aria-label="Turn the tumbler">
+          <button type="button" id="tw-v-front" data-rot="0" aria-pressed="true">Front</button>
+          <button type="button" id="tw-v-right" data-rot="1.5708" aria-pressed="false">Handle side</button>
+          <button type="button" id="tw-v-back" data-rot="3.1416" aria-pressed="false">Back</button>
+          <button type="button" id="tw-v-left" data-rot="-1.5708" aria-pressed="false">Other side</button>
+          <button type="button" id="tw-v-spin" aria-pressed="false">Spin</button>
+          <button type="button" id="tw-v-area" aria-pressed="false" style="display:none">Show engrave area</button>
+        </div>
+      </div>
+
+      <section class="tw-card" aria-labelledby="tw-h-layout">
+        <h2 id="tw-h-layout">Layout <span class="tw-step">the flattened tumbler</span></h2>
+        <p class="tw-hint">This is the tumbler unrolled flat. Drag art to move it, pull the corner square to resize, and drag the round dot to rotate. Anything outside the dashed boxes will not be engraved.</p>
+        <div class="tw-flatbox" id="tw-flatbox"><canvas id="tw-flat"></canvas></div>
+        <div class="tw-row"><span class="tw-dims" id="tw-dims"></span></div>
+        <ul class="tw-warns" id="tw-warns"></ul>
+      </section>
+    </div>
+
+    <div class="tw-col">
+      <section class="tw-card" aria-labelledby="tw-h-tumbler">
+        <h2 id="tw-h-tumbler">Tumbler <span class="tw-step">1</span></h2>
+        <div class="tw-field">
+          <span class="tw-label">Size</span>
+          <div class="tw-seg" id="tw-size" role="group" aria-label="Size"></div>
+        </div>
+        <div class="tw-field">
+          <span class="tw-label">Handle</span>
+          <div class="tw-seg" id="tw-handle" role="group" aria-label="Handle">
+            <button type="button" id="tw-h-no" data-v="0" aria-pressed="true">No handle</button>
+            <button type="button" id="tw-h-yes" data-v="1" aria-pressed="false">With handle</button>
+          </div>
+        </div>
+        <div class="tw-field">
+          <span class="tw-label">Color</span>
+          <div class="tw-swatches" id="tw-colors" role="group" aria-label="Powder-coat color"></div>
+        </div>
+        <div class="tw-field">
+          <span class="tw-label">Under the coat</span>
+          <div class="tw-seg" id="tw-metal" role="group" aria-label="Metal under the coat"></div>
+          <p class="tw-hint" id="tw-metal-note">The engraving shows the metal underneath. Gold and Rainbow come on black or white tumblers.</p>
+        </div>
+        <div class="tw-field" id="tw-hcolor-field" hidden>
+          <label class="tw-label" for="tw-hcolor">Handle color</label>
+          <select id="tw-hcolor"></select>
+        </div>
+      </section>
+
+      <section class="tw-card" aria-labelledby="tw-h-area">
+        <h2 id="tw-h-area">Engrave area <span class="tw-step">2</span></h2>
+        <div class="tw-seg" id="tw-zone" role="group" aria-label="Engrave area">
+          <button type="button" id="tw-z-front" data-v="front" aria-pressed="true">Front</button>
+          <button type="button" id="tw-z-fb" data-v="frontback" aria-pressed="false">Front + Back</button>
+          <button type="button" id="tw-z-wrap" data-v="wrap" aria-pressed="false">Full wrap</button>
+        </div>
+        <p class="tw-hint" id="tw-zone-note"></p>
+      </section>
+
+      <section class="tw-card" aria-labelledby="tw-h-art">
+        <h2 id="tw-h-art">Art and text <span class="tw-step">3</span></h2>
+        <div class="tw-drop" id="tw-drop">
+          <div class="tw-row" style="justify-content:center">
+            <button type="button" class="tw-btn tw-primary" id="tw-upload-btn">Upload a picture</button>
+            <button type="button" class="tw-btn" id="tw-addtext">Add text</button>
+          </div>
+          <p style="margin:8px 0 0">or drop a picture here. Logos, line drawings and bold shapes engrave best. Use Darkness to choose what gets engraved.</p>
+          <input type="file" id="tw-file" accept="image/*" hidden>
+        </div>
+        <div class="tw-field">
+          <span class="tw-label">Smoky Woods designs</span>
+          <div class="tw-tiles" id="tw-tiles"></div>
+          <p class="tw-hint">Placeholders for now. Jim's own designs go here soon.</p>
+        </div>
+      </section>
+
+      <section class="tw-card" aria-labelledby="tw-h-items">
+        <h2 id="tw-h-items">Your design <span class="tw-step">everything on the tumbler</span></h2>
+        <p class="tw-hint" id="tw-items-empty">Nothing yet. Upload a picture, choose one of our designs, or add text above.</p>
+        <ul class="tw-items" id="tw-items"></ul>
+      </section>
+
+      <section class="tw-inset" id="tw-inspector" aria-labelledby="tw-h-sel" hidden>
+        <h2 id="tw-h-sel" class="tw-h-sel">Settings for <span id="tw-sel-kind">text</span></h2>
+        <div id="tw-text-fields" class="tw-col" style="gap:12px">
+          <div class="tw-field"><label class="tw-label" for="tw-text">Words</label><textarea id="tw-text" rows="2"></textarea></div>
+          <div class="tw-field"><label class="tw-label" for="tw-font">Font</label><select id="tw-font"></select></div>
+        </div>
+        <div id="tw-img-fields" class="tw-col" style="gap:12px">
+          <div class="tw-field" id="tw-mode-field">
+            <span class="tw-label">Engrave style</span>
+            <div class="tw-seg" id="tw-mode" role="group" aria-label="Engrave style">
+              <button type="button" id="tw-m-line" data-v="line" aria-pressed="true">Line art</button>
+              <button type="button" id="tw-m-photo" data-v="photo" aria-pressed="false">Photo</button>
+            </div>
+          </div>
+          <div class="tw-field"><label class="tw-label" for="tw-dark">Darkness</label><input type="range" id="tw-dark" min="-1" max="1" step="0.02"></div>
+          <label class="tw-row" for="tw-invert"><input type="checkbox" id="tw-invert"> Swap engraved and plain areas</label>
+        </div>
+        <div class="tw-field"><label class="tw-label" for="tw-scale" id="tw-scale-label">Size</label><input type="range" id="tw-scale" min="0.1" max="8" step="0.01"></div>
+        <div class="tw-field"><label class="tw-label" for="tw-rot">Rotation</label><input type="range" id="tw-rot" min="-180" max="180" step="1"></div>
+        <div class="tw-row">
+          <button type="button" class="tw-btn" id="tw-center">Center it</button>
+          <button type="button" class="tw-btn" id="tw-toback" hidden>Move to back</button>
+          <button type="button" class="tw-btn tw-danger" id="tw-delete" hidden>Remove</button>
+        </div>
+      </section>
+
+      <section class="tw-card" aria-labelledby="tw-h-send">
+        <h2 id="tw-h-send">Send it to Jim <span class="tw-step">4</span></h2>
+        <div class="tw-price" id="tw-price" aria-live="polite"></div>
+        <form id="tw-form" class="tw-col" style="gap:10px" novalidate>
+          <div class="tw-grid2">
+            <div class="tw-field"><label class="tw-label" for="tw-name">Your name</label><input type="text" id="tw-name" autocomplete="name" required></div>
+            <div class="tw-field"><label class="tw-label" for="tw-email">Email</label><input type="email" id="tw-email" autocomplete="email" required></div>
+            <div class="tw-field"><label class="tw-label" for="tw-phone">Phone (optional)</label><input type="tel" id="tw-phone" autocomplete="tel"></div>
+            <div class="tw-field"><label class="tw-label" for="tw-qty">How many</label><input type="number" id="tw-qty" min="1" value="1"></div>
+          </div>
+          <div class="tw-field"><label class="tw-label" for="tw-notes">Anything else Jim should know</label><textarea id="tw-notes" rows="2" placeholder="Gift date, names spelled out, which side faces out..."></textarea></div>
+          <p class="tw-hint">Your design code is <span class="tw-code" id="tw-code">SW-T-····</span>. Jim gets your layout, a preview picture and your original upload. He'll reply with a price and an order link before any paint comes off.</p>
+          <p class="tw-disclaimer">Every design is reviewed for how well it will engrave before anything is made. If something won't turn out right, Jim will suggest a fix first.</p>
+          <div class="tw-row"><button type="submit" class="tw-btn tw-primary" id="tw-send">Send my design to Jim</button></div>
+          <p class="tw-status" id="tw-send-status" role="status"></p>
+          <div class="tw-mail" id="tw-mail" hidden></div>
+        </form>
+      </section>
+
+      <details class="tw-card tw-shop" id="tw-shop">
+        <summary>Shop tools</summary>
+        <p class="tw-hint">Jim's side. Load a design a customer sent, then save the engrave file for LightBurn.</p>
+        <div class="tw-field"><label class="tw-label" for="tw-load">Paste a layout code from an email</label><textarea id="tw-load" rows="3" placeholder="layout_code from the email"></textarea></div>
+        <div class="tw-row"><button type="button" class="tw-btn" id="tw-load-btn">Load pasted design</button><button type="button" class="tw-btn" id="tw-copy-btn">Copy this layout code</button></div>
+        <div id="tw-need" class="tw-col" style="gap:8px" hidden></div>
+        <div class="tw-row">
+          <button type="button" class="tw-btn tw-primary" id="tw-export">Save engrave file (PNG, 300 dpi)</button>
+          <button type="button" class="tw-btn" id="tw-export-prev">Save preview picture</button>
+        </div>
+        <p class="tw-status" id="tw-shop-status" role="status"></p>
+        <p class="tw-hint">The engrave file is the full unrolled wrap at true size: black is engraved, white is left alone. The left edge is the side opposite the handle, so the front sits a quarter of the way in.</p>
+        <p class="tw-hint">Engrave area sizes are placeholders until Jim sends real measurements. All six fonts are free for commercial use (SIL Open Font License; Permanent Marker is Apache 2.0).</p>
+      </details>
+    </div>
+  </div>
+  <p class="tw-foot">Smoky Woods LLC · laser-engraved in East Tennessee</p>
+</div>
+</div>
+
+<script>
+(function () {
+"use strict";
+const WEB = true; // website build flips this: sends through FormSubmit and hides Shop tools
+const FORM_CODE = "784e04d8355327f4efe6fbc6dc6e042d";
+const PHOTO_MODE = false; // dotted photo engraving: off until Jim test-engraves it (revisit mid-November 2026)
+const $ = (id) => document.getElementById(id);
+const TAU = Math.PI * 2;
+
+/* ---------- catalog (from Jim's supplier sheets) ---------- */
+const COLORS = [
+  ["Black", "#1b1e26"], ["White", "#ecebf1"], ["Blue", "#173a96"], ["Light Blue", "#74b4ec"],
+  ["Navy", "#2a3463"], ["Maroon", "#74162b"], ["Red", "#a3122a"], ["Pink", "#e660ab"],
+  ["Teal", "#5ccfe3"], ["Purple", "#50388a"], ["Green", "#34503f"], ["Yellow", "#f3b51e"], ["Orange", "#e97f2e"]
+];
+const ALL = COLORS.map(c => c[0]);
+// h = overall height with lid (in), dia = top diameter (in). eTop/eH = engrave band (placeholder until measured).
+const SIZES = {
+  "20": { label: "20 oz", h: 7.94, dia: 2.82, colors: ALL, eTop: 0.5, eH: 6.94, front: 3.0,
+          prof: t => 1 - 0.2 * t, handle: { a: 0.45, b: 3.9, reach: 1.15 } },
+  "30": { label: "30 oz", h: 8.0, dia: 3.0, colors: ALL, eTop: 0.5, eH: 3.0, front: 3.2,
+          prof: t => t < 0.7 ? 1 - 0.1 * (t / 0.7) : t < 0.78 ? 0.9 - 0.12 * ease((t - 0.7) / 0.08) : 0.78 - 0.05 * ((t - 0.78) / 0.22),
+          handle: { a: 0.45, b: 3.6, reach: 1.2 } },
+  "40": { label: "40 oz", h: 10.0, dia: 4.0, colors: ALL.filter(n => !["Light Blue", "Navy", "Maroon"].includes(n)), eTop: 0.5, eH: 4.75, front: 4.0,
+          prof: t => t < 0.62 ? 1 - 0.03 * (t / 0.62) : t < 0.71 ? 0.97 - 0.25 * ease((t - 0.62) / 0.09) : 0.72 - 0.04 * ((t - 0.71) / 0.29),
+          handle: { a: 0.45, b: 3.7, reach: 1.3 } }
+};
+const METALS = { stainless: "Stainless", gold: "Gold", rainbow: "Rainbow" };
+const FONTS = [
+  { id: "Montserrat", label: "Montserrat (bold block)", w: 700 },
+  { id: "Bebas Neue", label: "Bebas Neue (tall caps)", w: 400 },
+  { id: "Playfair Display", label: "Playfair (classic serif)", w: 700 },
+  { id: "Great Vibes", label: "Great Vibes (script)", w: 400 },
+  { id: "Rye", label: "Rye (western)", w: 400 },
+  { id: "Permanent Marker", label: "Permanent Marker (hand drawn)", w: 400 }
+];
+function ease(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+function hexRgb(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+function colorHex(name) { const c = COLORS.find(c => c[0] === name); return c ? c[1] : "#888888"; }
+
+/* ---------- placeholder standard designs (drawn, black on transparent) ---------- */
+function makeStd(draw) { const c = document.createElement("canvas"); c.width = c.height = 600; const g = c.getContext("2d"); g.fillStyle = g.strokeStyle = "#000"; draw(g); return c.toDataURL("image/png"); }
+const STD = [
+  { id: "std-mountains", label: "Mountains", src: makeStd(g => {
+      g.beginPath(); g.arc(420, 170, 70, 0, TAU); g.lineWidth = 16; g.stroke();
+      g.beginPath(); g.moveTo(20, 470); g.lineTo(190, 210); g.lineTo(270, 320); g.lineTo(360, 170); g.lineTo(580, 470); g.closePath(); g.fill();
+      g.globalCompositeOperation = "destination-out";
+      g.beginPath(); g.moveTo(190, 210); g.lineTo(150, 272); g.lineTo(175, 262); g.lineTo(195, 285); g.lineTo(215, 255); g.lineTo(236, 270); g.closePath(); g.fill();
+      g.beginPath(); g.moveTo(360, 170); g.lineTo(316, 240); g.lineTo(342, 228); g.lineTo(362, 252); g.lineTo(384, 226); g.lineTo(408, 244); g.closePath(); g.fill();
+      for (let i = 0; i < 4; i++) { g.fillRect(40 + i * 30, 500 + i * 18, 520 - i * 60, 8); }
+      g.globalCompositeOperation = "source-over";
+    }) },
+  { id: "std-pines", label: "Pine trees", src: makeStd(g => {
+      const tree = (x, y, s) => { for (let i = 0; i < 4; i++) { const w = s * (0.35 + i * 0.2), top = y + i * s * 0.32; g.beginPath(); g.moveTo(x, top); g.lineTo(x - w, top + s * 0.5); g.lineTo(x + w, top + s * 0.5); g.closePath(); g.fill(); } g.fillRect(x - s * 0.08, y + s * 1.45, s * 0.16, s * 0.3); };
+      tree(170, 140, 190); tree(330, 60, 260); tree(470, 170, 170);
+      g.fillRect(40, 560, 520, 12);
+    }) },
+  { id: "std-compass", label: "Compass", src: makeStd(g => {
+      g.lineWidth = 18; g.beginPath(); g.arc(300, 300, 250, 0, TAU); g.stroke();
+      g.lineWidth = 6; g.beginPath(); g.arc(300, 300, 215, 0, TAU); g.stroke();
+      for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2; g.save(); g.translate(300, 300); g.rotate(a); g.beginPath(); g.moveTo(0, -200); g.lineTo(34, 0); g.lineTo(0, 0); g.closePath(); g.fill(); g.beginPath(); g.moveTo(0, -200); g.lineTo(-34, 0); g.lineTo(0, 0); g.closePath(); g.lineWidth = 5; g.stroke(); g.restore(); }
+      for (let i = 0; i < 4; i++) { const a = Math.PI / 4 + i * Math.PI / 2; g.save(); g.translate(300, 300); g.rotate(a); g.beginPath(); g.moveTo(0, -120); g.lineTo(18, 0); g.lineTo(-18, 0); g.closePath(); g.fill(); g.restore(); }
+      g.font = "700 64px Georgia, serif"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#000";
+    }) }
+];
+
+/* ---------- pricing (matches the Square items) ---------- */
+const PRICES = { base: { "20": 20, "30": 28, "40": 30 }, handle: 3, engrave: { front: 4, frontback: 8, wrap: 12 } };
+const ENGRAVE_LABEL = { front: "Engraving, 1 side", frontback: "Engraving, front and back", wrap: "Engraving, full wrap" };
+function priceLines() {
+  const L = [[SIZES[state.size].label + " tumbler", PRICES.base[state.size]]];
+  if (state.handle) L.push(["Handle", PRICES.handle]);
+  if (state.els.length) L.push([ENGRAVE_LABEL[state.zone], PRICES.engrave[state.zone]]);
+  return L;
+}
+function priceTotal() { return priceLines().reduce((a, l) => a + l[1], 0); }
+function money(n) { return "$" + n.toFixed(2); }
+function renderPrice() {
+  const box = $("tw-price"), rows = priceLines().map(([t, v]) => { const r = document.createElement("div"); r.className = "tw-price-row"; const a = document.createElement("span"), b = document.createElement("span"); a.textContent = t; b.textContent = money(v); r.append(a, b); return r; });
+  const tot = document.createElement("div"); tot.className = "tw-price-row tw-price-total"; const a = document.createElement("span"), b = document.createElement("span"); a.textContent = "Total"; b.textContent = money(priceTotal()); tot.append(a, b);
+  const note = document.createElement("p"); note.className = "tw-hint"; note.style.margin = "0"; note.textContent = "Color and the metal underneath don't change the price. Jim confirms the final price when he replies.";
+  box.replaceChildren(...rows, tot, note);
+}
+
+/* ---------- state ---------- */
+const PPI = 100;            // preview mask resolution
+const EXPORT_PPI = 300;     // engrave file resolution
+const images = {};          // src key -> HTMLImageElement
+const originals = {};       // upload key -> File (for sending)
+let state = defaultState();
+let selected = null, rot = 0, spin = false, spinRaf = 0;
+let mask = null;            // {w,h,a:Uint8ClampedArray, canvas, all}
+let warnings = [];
+
+function defaultState() {
+  return { v: 1, code: newCode(), size: "20", color: "Navy", metal: "stainless", handle: false, hcolor: "Navy", zone: "front", example: true,
+    els: [
+      { id: "e1", type: "image", src: "std-mountains", name: "Mountains", x: 0, y: 1.75, w: 2.3, rot: 0, mode: "line", dark: 0, invert: false },
+      { id: "e2", type: "text", text: "GONE HIKIN'", font: "Rye", size: 0.36, x: 0, y: 3.55, rot: 0 }
+    ] };
+}
+function newCode() { const a = "23456789ABCDEFGHJKMNPQRSTUVWXYZ"; let s = ""; for (let i = 0; i < 4; i++) s += a[Math.floor(Math.random() * a.length)]; return "SW-T-" + s; }
+function S() { return SIZES[state.size]; }
+// Circumference used for the unrolled wrap: measured at the middle of the engrave band.
+function bodyH() { return S().h - 0.45; }
+function radiusIn(yin) { const s = S(); return s.dia / 2 * s.prof(Math.max(0, Math.min(1, yin / bodyH()))); }
+function circ() { const s = S(); return TAU * radiusIn(s.eTop + s.eH / 2); }
+function frontX() { return circ() / 4; }
+function backX() { return circ() * 3 / 4; }
+function zones() {
+  const c = circ(), s = S(), fw = c / 3;
+  if (state.zone === "front") return [[frontX() - fw / 2, frontX() + fw / 2]];
+  if (state.zone === "frontback") return [[frontX() - fw / 2, frontX() + fw / 2], [backX() - fw / 2, backX() + fw / 2]];
+  return [[0, c]];
+}
+// element x is stored relative to the front center so it survives size changes
+function elX(el) { return frontX() + el.x; }
+
+/* ---------- persistence (per-browser convenience only) ---------- */
+const LS = "sw-tumbler-designer-v1";
+function save() { try { localStorage.setItem(LS, JSON.stringify({ state, uploads: Object.fromEntries(Object.entries(images).filter(([k]) => k.startsWith("up-")).map(([k, im]) => [k, im.src])) })); } catch (e) { } }
+function restore() {
+  try { const raw = localStorage.getItem(LS); if (!raw) return null; return JSON.parse(raw); } catch (e) { return null; }
+}
+
+/* ---------- image loading ---------- */
+function loadImage(key, src) { return new Promise((res) => { const im = new Image(); im.onload = () => { images[key] = im; res(im); }; im.onerror = () => res(null); im.src = src; }); }
+function downscale(im, max) {
+  const k = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight)); const c = document.createElement("canvas");
+  c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k); c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+  return c.toDataURL("image/png");
+}
+
+/* ---------- engraving processing ---------- */
+const procCache = new Map();
+function aspect(el) { const im = images[el.src]; return im ? im.naturalHeight / im.naturalWidth : 1; }
+function processImage(el, ppi) {
+  const im = images[el.src]; if (!im) return null;
+  const pw = Math.max(2, Math.min(5000, Math.round(el.w * ppi))), ph = Math.max(2, Math.min(5000, Math.round(el.w * aspect(el) * ppi)));
+  const key = [el.src, el.mode, el.dark, el.invert, pw, ph].join("|");
+  if (procCache.has(key)) return procCache.get(key);
+  const c = document.createElement("canvas"); c.width = pw; c.height = ph; const g = c.getContext("2d");
+  g.fillStyle = "#fff"; g.fillRect(0, 0, pw, ph); g.drawImage(im, 0, 0, pw, ph);
+  const d = g.getImageData(0, 0, pw, ph), p = d.data, n = pw * ph, L = new Float32Array(n);
+  for (let i = 0; i < n; i++) { let l = 0.299 * p[i * 4] + 0.587 * p[i * 4 + 1] + 0.114 * p[i * 4 + 2]; if (el.invert) l = 255 - l; L[i] = l; }
+  const out = new Uint8Array(n);
+  if (el.mode === "photo") {
+    const gamma = Math.pow(2, -el.dark * 1.2);
+    for (let i = 0; i < n; i++) L[i] = 255 * Math.pow(L[i] / 255, gamma);
+    for (let y = 0; y < ph; y++) for (let x = 0; x < pw; x++) {
+      const i = y * pw + x, o = L[i] < 128 ? 0 : 255, e = L[i] - o; out[i] = o === 0 ? 1 : 0;
+      if (x + 1 < pw) L[i + 1] += e * 7 / 16;
+      if (y + 1 < ph) { if (x > 0) L[i + pw - 1] += e * 3 / 16; L[i + pw] += e * 5 / 16; if (x + 1 < pw) L[i + pw + 1] += e / 16; }
+    }
+  } else {
+    const thr = 128 + el.dark * 100;
+    for (let i = 0; i < n; i++) out[i] = L[i] < thr ? 1 : 0;
+  }
+  for (let i = 0; i < n; i++) { p[i * 4] = p[i * 4 + 1] = p[i * 4 + 2] = 255; p[i * 4 + 3] = out[i] ? 255 : 0; }
+  g.putImageData(d, 0, 0);
+  // detail measure for the muddy-engraving warning
+  let filled = 0, edge = 0;
+  for (let y = 1; y < ph - 1; y++) for (let x = 1; x < pw - 1; x++) { const i = y * pw + x; if (!out[i]) continue; filled++; if (!out[i - 1] || !out[i + 1] || !out[i - pw] || !out[i + pw]) edge++; }
+  const res = { canvas: c, detail: filled > 400 ? edge / filled : 0, filled };
+  if (procCache.size > 60) procCache.clear();
+  procCache.set(key, res);
+  return res;
+}
+function fontCss(el, ppi) { const f = FONTS.find(f => f.id === el.font) || FONTS[0]; return `${f.w} ${Math.max(1, el.size * ppi)}px "${f.id}"`; }
+let measureCtx = document.createElement("canvas").getContext("2d");
+function elSize(el) { // inches
+  if (el.type === "image") return [el.w, el.w * aspect(el)];
+  measureCtx.font = fontCss(el, 100); const lines = String(el.text || " ").split("\n");
+  const w = Math.max(...lines.map(l => measureCtx.measureText(l || " ").width)) / 100;
+  return [Math.max(0.1, w), lines.length * el.size * 1.18];
+}
+function drawEl(g, el, ppi) {
+  const cx = elX(el) * ppi, cy = el.y * ppi;
+  g.save(); g.translate(cx, cy); g.rotate(el.rot * Math.PI / 180);
+  if (el.type === "image") {
+    const pr = processImage(el, ppi); if (pr) { const [w, h] = elSize(el); g.drawImage(pr.canvas, -w * ppi / 2, -h * ppi / 2, w * ppi, h * ppi); }
+  } else {
+    g.font = fontCss(el, ppi); g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle";
+    const lines = String(el.text || "").split("\n"), lh = el.size * 1.18 * ppi, top = -(lines.length - 1) * lh / 2;
+    lines.forEach((l, i) => g.fillText(l, 0, top + i * lh));
+  }
+  g.restore();
+}
+function buildMask(ppi, clip) {
+  const s = S(), w = Math.round(circ() * ppi), h = Math.round(s.eH * ppi);
+  const c = document.createElement("canvas"); c.width = w; c.height = h; const g = c.getContext("2d");
+  if (clip) { g.beginPath(); zones().forEach(([a, b]) => g.rect(a * ppi, 0, (b - a) * ppi, h)); g.clip(); }
+  state.els.forEach(el => drawEl(g, el, ppi));
+  return c;
+}
+function rebuild() {
+  const clipped = buildMask(PPI, true), all = buildMask(PPI, false);
+  const a = clipped.getContext("2d").getImageData(0, 0, clipped.width, clipped.height).data;
+  const b = all.getContext("2d").getImageData(0, 0, all.width, all.height).data;
+  const A = new Uint8ClampedArray(clipped.width * clipped.height); let sa = 0, sb = 0;
+  for (let i = 0; i < A.length; i++) { A[i] = a[i * 4 + 3]; sa += a[i * 4 + 3]; sb += b[i * 4 + 3]; }
+  mask = { w: clipped.width, h: clipped.height, a: A, canvas: clipped, all };
+  warnings = [];
+  if (sb - sa > 255 * 40) warnings.push("Part of your design hangs outside the engrave area. That part gets trimmed.");
+  if (sa === 0) warnings.push("Nothing to engrave yet. Add a picture or some text.");
+  state.els.forEach(el => {
+    if (el.type === "image") {
+      const pr = processImage(el, PPI), im = images[el.src];
+      if (el.mode === "photo") warnings.push(`${el.name || "Picture"}: photos engrave as fine dots. Faces and small details can turn muddy on steel. Bold, high-contrast photos work best.`);
+      else if (pr && pr.detail > 0.5) warnings.push(`${el.name || "Picture"}: lots of thin lines and tiny bits. Some may blur together. Try it bigger or with less darkness.`);
+      if (im && im.naturalWidth / el.w < 110) warnings.push(`${el.name || "Picture"}: this picture is small for how big it's printed and may look blocky. A larger file helps.`);
+    } else if (el.size < 0.16 && el.text.trim()) warnings.push(`"${el.text.trim().slice(0, 24)}": text this small can fill in. Go a little bigger.`);
+  });
+  renderAll(); save();
+}
+
+
+/* ---------- photo-based preview (real tumbler photos, recolored) ---------- */
+const PHOTO_DATA = /*PHOTODATA*/null/*ENDPHOTODATA*/;
+const photos = {};          // key -> {img, meta}
+const tintCache = {};       // cache key -> canvas
+function photoKey() { return (state.handle ? "h" : "n") + state.size + (state.color === "Black" ? "k" : "w"); }
+function photoReady() { return !!photos[photoKey()]; }
+const PHOTO_BASE = "https://licatja.github.io/smoky-woods-assets/tumbler/";   // the website build loads the photos from here
+function loadPhotos() {
+  const loadOne = (k, meta, src, cors) => new Promise(res => { const im = new Image(); if (cors) im.crossOrigin = "anonymous"; im.onload = () => { photos[k] = { img: im, meta }; res(); }; im.onerror = () => res(); im.src = src; });
+  if (PHOTO_DATA) return Promise.all(Object.entries(PHOTO_DATA).map(([k, d]) => loadOne(k, d.meta, "data:image/webp;base64," + d.b64, false)));
+  if (!WEB) return Promise.resolve();
+  return fetch(PHOTO_BASE + "photos.json").then(r => r.json()).then(meta => Promise.all(Object.entries(meta).map(([k, m]) => loadOne(k, m, PHOTO_BASE + k + ".webp", true)))).catch(() => { });
+}
+// photo -> body-colored canvas (white photo is recolored by its brightness; the clear lid stays as shot)
+function tintedPhoto(flip) {
+  const key = photoKey(), P = photos[key], m = P.meta, black = key.endsWith("k");
+  const ck = [key, flip, state.color, state.handle ? state.hcolor : "", state.color].join("|");
+  if (tintCache[ck]) return tintCache[ck];
+  const c = document.createElement("canvas"); c.width = m.w; c.height = m.h; const g = c.getContext("2d");
+  if (flip) { g.translate(m.w, 0); g.scale(-1, 1); }
+  g.drawImage(P.img, 0, 0); if (flip) g.setTransform(1, 0, 0, 1, 0, 0);
+  if (!black) {
+    const im = g.getImageData(0, 0, m.w, m.h), d = im.data, body = hexRgb(colorHex(state.color)), hc = hexRgb(colorHex(state.handle ? state.hcolor : state.color));
+    const cx = flip ? m.w - m.cx : m.cx, lidA = m.lidTop, lidB = m.handle ? m.lidTop + 0.2 * m.ppi : m.bodyTop;
+    for (let y = 0; y < m.h; y++) {
+      const hw = m.hw[y] || 0, inLid = y >= lidA - 2 && y <= lidB + 2;
+      for (let x = 0; x < m.w; x++) {
+        const i = (y * m.w + x) * 4; if (d[i + 3] === 0) continue;
+        if (inLid) continue;
+        const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2], k = Math.min(1.15, Math.max(0, lum / m.ref));
+        const isHandle = state.handle && y > lidA && Math.abs(x + 0.5 - cx) > hw + 2, col = isHandle ? hc : body;
+        d[i] = Math.min(255, col[0] * k); d[i + 1] = Math.min(255, col[1] * k); d[i + 2] = Math.min(255, col[2] * k);
+      }
+    }
+    g.putImageData(im, 0, 0);
+  }
+  const keys = Object.keys(tintCache); if (keys.length > 12) delete tintCache[keys[0]];
+  return (tintCache[ck] = c);
+}
+const photoBuf = document.createElement("canvas");
+function renderPhoto(ctx, W, H, rotation) {
+  const P = photos[photoKey()], m = P.meta, s = S();
+  const back = Math.cos(rotation) < 0, rot = back ? Math.PI : 0, flip = back;   // photos are stored with the handle on the right (the front view, like the layout); the back view mirrors them
+  const base = tintedPhoto(flip);
+  photoBuf.width = m.w; photoBuf.height = m.h; const g = photoBuf.getContext("2d"); g.clearRect(0, 0, m.w, m.h); g.drawImage(base, 0, 0);
+  const cx = flip ? m.w - m.cx : m.cx, bodyTop = m.bodyTop, bH = s.h, ppi = (m.shoulder - bodyTop) / (s.eH + 1);   // the straight part of the cup (top of cup to where it narrows) is the engrave height plus a 1/2 inch border at each end
+  const y0 = Math.max(0, Math.floor(bodyTop + s.eTop * ppi)), y1 = Math.min(m.h - 1, Math.ceil(bodyTop + (s.eTop + s.eH) * ppi));
+  if (mask && y1 > y0) {
+    const im = g.getImageData(0, 0, m.w, m.h), d = im.data;
+    for (let py = y0; py <= y1; py++) {
+      const yin = (py + 0.5 - bodyTop) / ppi, ev = (yin - s.eTop) / s.eH; if (ev < 0 || ev >= 1) continue;
+      const my = Math.min(mask.h - 1, Math.floor(ev * mask.h)), R = (m.hw[py] || 0) - 1.5, t = yin / bH; if (R <= 4) continue;
+      for (let px = Math.floor(cx - R); px <= Math.ceil(cx + R); px++) {
+        const sn = Math.max(-1, Math.min(1, (px + 0.5 - cx) / R)), cs = Math.sqrt(1 - sn * sn), thS = Math.asin(sn), th = thS + rot;
+        // arc distance from the panel center, measured at the photo's own scale so the art keeps its proportions (the photo's tumbler isn't exactly true to the real one)
+        let u = ((back ? 0.75 : 0.25) + thS * (R + 1.5) / ppi / circ()) % 1; if (u < 0) u += 1;
+        const al = mask.a[my * mask.w + Math.min(mask.w - 1, Math.floor(u * mask.w))] / 255; if (al <= 0) continue;
+        const i = (py * m.w + px) * 4; if (d[i + 3] === 0) continue;
+        const lam = Math.max(0, sn * LX + cs * LZ), spec = Math.pow(Math.max(0, sn * HX + cs * HZ), 28), rim = 0.72 + 0.28 * cs, mt = metalRGB(state.metal, thS, th, t, lam, spec, py);
+        d[i] += (mt[0] * rim - d[i]) * al; d[i + 1] += (mt[1] * rim - d[i + 1]) * al; d[i + 2] += (mt[2] * rim - d[i + 2]) * al;
+      }
+    }
+    g.putImageData(im, 0, 0);
+  }
+  ctx.clearRect(0, 0, W, H);
+  const viewPpi = H * 0.86 / (s.h + 1.9), sc = Math.min(viewPpi / m.ppi, H * 0.9 / m.h, W * 0.96 / m.w), dw = m.w * sc, dh = m.h * sc;
+  const groundY = H * 0.95, dx = W / 2 - cx * sc, dy = groundY - m.base * sc;
+  const sh = ctx.createRadialGradient(W / 2, groundY, 0, W / 2, groundY, m.hw[m.base - 4] * sc * 1.5 || 60);
+  sh.addColorStop(0, "rgba(0,0,0,.30)"); sh.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.save(); ctx.translate(W / 2, groundY); ctx.scale(1, 0.16); ctx.translate(-W / 2, -groundY); ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(W / 2, groundY, (m.hw[m.base - 4] || 60) * sc * 1.5, 0, TAU); ctx.fill(); ctx.restore();
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high"; ctx.drawImage(photoBuf, dx, dy, dw, dh);
+  if (showArea) { // the engrave zone: top and bottom limits across the body
+    ctx.save(); ctx.setLineDash([7, 5]); ctx.lineWidth = 1.5; ctx.strokeStyle = "rgba(255,255,255,.95)"; ctx.shadowColor = "rgba(0,0,0,.6)"; ctx.shadowBlur = 2;
+    [bodyTop + s.eTop * ppi, bodyTop + (s.eTop + s.eH) * ppi].forEach(y => { const R = (m.hw[Math.round(y)] || 0) - 1.5; ctx.beginPath(); ctx.moveTo(dx + (cx - R) * sc, dy + y * sc); ctx.lineTo(dx + (cx + R) * sc, dy + y * sc); ctx.stroke(); });
+    ctx.restore();
+  }
+}
+let showArea = false;
+function syncViewButtons() { const on = photoReady(); $("tw-v-area").style.display = on ? "" : "none"; ["tw-v-right", "tw-v-left", "tw-v-spin"].forEach(id => { $(id).style.display = on ? "none" : ""; }); if (on) stopSpin(); }
+
+/* ---------- 3D-ish tumbler renderer (per-pixel cylinder) ---------- */
+const viewCanvas = $("tw-view"), viewBuf = document.createElement("canvas");
+const LX = -0.5, LZ = 0.86, HX = -0.27, HZ = 0.96; // light and half-vector
+const noise = new Float32Array(4096); for (let i = 0; i < noise.length; i++) noise[i] = Math.random();
+function metalRGB(metal, thS, th, t, lam, spec, row) {
+  let r, g, b;
+  if (metal === "gold") { const k = 0.55 + 0.45 * lam; r = 196 * k; g = 152 * k; b = 64 * k; }
+  else if (metal === "rainbow") {
+    const hue = ((th * 0.9 + t * 4.5 + thS * 1.3) / TAU % 1 + 1) % 1, k = 0.5 + 0.5 * lam;
+    const q = (n) => { const x = (n + hue * 6) % 6; return Math.max(0, Math.min(1, Math.abs(x - 3) - 1)); };
+    r = (80 + 150 * q(5)) * k; g = (80 + 150 * q(3)) * k; b = (90 + 150 * q(1)) * k;
+  } else { const k = 0.58 + 0.42 * lam, br = 0.92 + 0.12 * noise[row & 4095]; r = 196 * k * br; g = 200 * k * br; b = 206 * k * br; }
+  const sp = spec * (metal === "stainless" ? 210 : 170);
+  return [r + sp, g + sp, b + sp];
+}
+function renderView(ctx, W, H, rotation, opts) {
+  if (photoReady()) { renderPhoto(ctx, W, H, rotation); return; }
+  opts = opts || {};
+  const s = S(), dpr = opts.scale || 1;
+  const totalIn = s.h + 1.9, ppi = H * 0.86 / totalIn;
+  const cx = W / 2, groundY = H * 0.9, bodyBot = groundY, bH = bodyH(), bodyTop = bodyBot - bH * ppi, rT = s.dia / 2 * ppi;
+  const coat = hexRgb(colorHex(state.color)), hcol = hexRgb(colorHex(state.handle ? state.hcolor : state.color));
+  ctx.clearRect(0, 0, W, H);
+  // floor shadow
+  const sh = ctx.createRadialGradient(cx, groundY, 0, cx, groundY, rT * 1.6);
+  sh.addColorStop(0, "rgba(0,0,0,.35)"); sh.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.save(); ctx.translate(cx, groundY); ctx.scale(1, 0.18); ctx.translate(-cx, -groundY); ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(cx, groundY, rT * 1.6, 0, TAU); ctx.fill(); ctx.restore();
+  const thH = Math.PI / 2 - rotation; // screen angle of the handle
+  const handleFront = Math.cos(thH) >= 0;
+  if (state.handle && !handleFront) drawHandle(ctx, cx, bodyTop, ppi, thH, hcol);
+  // body
+  viewBuf.width = W; viewBuf.height = H; const bctx = viewBuf.getContext("2d");
+  const img = bctx.createImageData(W, H), d = img.data;
+  const y0 = Math.floor(bodyTop), y1 = Math.ceil(bodyBot);
+  const ring = state.handle ? [0.05, 0.42] : null;
+  const band = state.metal !== "stainless" ? [0.05, 0.42] : null;
+  for (let py = y0; py < y1; py++) {
+    const yin = (py + 0.5 - bodyTop) / ppi; if (yin < 0 || yin > bH) continue;
+    const t = yin / bH, R = rT * s.prof(t), rowEdge = Math.min(1, (bH - yin) * ppi * 0.5);
+    const inRing = ring && yin >= ring[0] && yin <= ring[1], inBand = band && yin >= band[0] && yin <= band[1];
+    const ev = (yin - s.eTop) / s.eH, inEng = mask && ev >= 0 && ev < 1, my = inEng ? Math.min(mask.h - 1, Math.floor(ev * mask.h)) : 0;
+    const xa = Math.max(0, Math.floor(cx - R - 1)), xb = Math.min(W - 1, Math.ceil(cx + R + 1));
+    for (let px = xa; px <= xb; px++) {
+      const dx = px + 0.5 - cx, cov = Math.max(0, Math.min(1, R - Math.abs(dx) + 0.5)) * rowEdge; if (cov <= 0) continue;
+      const sn = Math.max(-1, Math.min(1, dx / R)), cs = Math.sqrt(1 - sn * sn), thS = Math.asin(sn);
+      const lam = Math.max(0, sn * LX + cs * LZ), spec = Math.pow(Math.max(0, sn * HX + cs * HZ), 28);
+      const rim = 0.72 + 0.28 * cs;
+      let r, g, b;
+      if (inBand) { [r, g, b] = metalRGB(state.metal, thS, thS + rotation, t, lam, spec * 1.4, px); }
+      else {
+        const base = inRing ? hcol : coat, k = (0.5 + 0.55 * lam) * rim, sp = Math.pow(Math.max(0, sn * HX + cs * HZ), 9) * 26;
+        r = base[0] * k + sp; g = base[1] * k + sp; b = base[2] * k + sp;
+        if (inEng) {
+          const th = thS + rotation; let u = ((th + Math.PI / 2) / TAU) % 1; if (u < 0) u += 1;
+          const al = mask.a[my * mask.w + Math.min(mask.w - 1, Math.floor(u * mask.w))] / 255;
+          if (al > 0) { const m = metalRGB(state.metal, thS, th, t, lam, spec, py); r += (m[0] * rim - r) * al; g += (m[1] * rim - g) * al; b += (m[2] * rim - b) * al; }
+        }
+      }
+      const i = (py * W + px) * 4; d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = cov * 255;
+    }
+  }
+  bctx.putImageData(img, 0, 0); ctx.drawImage(viewBuf, 0, 0);
+  drawLid(ctx, cx, bodyTop, rT, ppi, coat);
+  if (state.handle && handleFront) drawHandle(ctx, cx, bodyTop, ppi, thH, hcol);
+}
+function drawHandle(ctx, cx, top, ppi, thS, col) {
+  const s = S(), hd = s.handle, sn = Math.sin(thS), cs = Math.abs(Math.cos(thS));
+  const pts = [], N = 40;
+  for (let i = 0; i <= N; i++) { // C shape in (reach, y)
+    const t = i / N, a = Math.PI * t;
+    const yy = hd.a + (hd.b - hd.a) * (0.5 - 0.5 * Math.cos(a)), rr = hd.reach * Math.pow(Math.sin(a), 0.55);
+    pts.push([cx + (radiusIn(yy) + rr * 0.9) * sn * ppi, top + yy * ppi]);
+  }
+  const k = Math.cos(thS) >= 0 ? 1 : 0.6;
+  ctx.save(); ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.lineWidth = (0.42 + 0.14 * cs) * ppi;
+  ctx.strokeStyle = `rgb(${col[0] * 0.55 * k},${col[1] * 0.55 * k},${col[2] * 0.55 * k})`;
+  ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke();
+  ctx.lineWidth = (0.3 + 0.12 * cs) * ppi; ctx.strokeStyle = `rgb(${Math.min(255, col[0] * 0.95 * k + 12)},${Math.min(255, col[1] * 0.95 * k + 12)},${Math.min(255, col[2] * 0.95 * k + 12)})`;
+  ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0] - 0.04 * ppi, p[1] - 0.03 * ppi) : ctx.moveTo(p[0], p[1])); ctx.stroke();
+  ctx.restore();
+}
+function drawLid(ctx, cx, top, rT, ppi, coat) {
+  const lidH = 0.45 * ppi, r = rT * 1.01, ry = r * 0.13;
+  const clearStraw = state.metal !== "stainless" || state.color === "White";
+  // straw (behind lid top edge)
+  const sx = cx + r * 0.3, sy = top - lidH;
+  ctx.save(); ctx.lineCap = "round";
+  ctx.lineWidth = 0.27 * ppi; ctx.strokeStyle = clearStraw ? "rgba(235,240,245,.85)" : `rgb(${coat[0] * 0.8},${coat[1] * 0.8},${coat[2] * 0.8})`;
+  ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + 0.5 * ppi, sy - 1.45 * ppi); ctx.stroke();
+  ctx.lineWidth = 0.08 * ppi; ctx.strokeStyle = "rgba(255,255,255,.35)"; ctx.beginPath(); ctx.moveTo(sx - 0.05 * ppi, sy); ctx.lineTo(sx + 0.45 * ppi, sy - 1.45 * ppi); ctx.stroke();
+  ctx.restore();
+  const gr = ctx.createLinearGradient(cx - r, 0, cx + r, 0);
+  gr.addColorStop(0, "rgba(120,126,132,.95)"); gr.addColorStop(0.3, "rgba(232,235,238,.95)"); gr.addColorStop(0.55, "rgba(196,200,204,.95)"); gr.addColorStop(1, "rgba(104,110,116,.95)");
+  ctx.fillStyle = gr; ctx.beginPath(); ctx.moveTo(cx - r, top + 1); ctx.lineTo(cx - r, top - lidH); ctx.ellipse(cx, top - lidH, r, ry, 0, Math.PI, 0, false); ctx.lineTo(cx + r, top + 1); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "rgba(225,229,233,.9)"; ctx.beginPath(); ctx.ellipse(cx, top - lidH, r * 0.97, ry * 0.9, 0, 0, TAU); ctx.fill();
+  ctx.strokeStyle = "rgba(90,96,102,.6)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - r, top - lidH * 0.35); ctx.lineTo(cx + r, top - lidH * 0.35); ctx.stroke();
+  // straw stub above lid
+  ctx.save(); ctx.lineCap = "round"; ctx.lineWidth = 0.27 * ppi; ctx.strokeStyle = clearStraw ? "rgba(235,240,245,.9)" : `rgb(${coat[0] * 0.9},${coat[1] * 0.9},${coat[2] * 0.9})`;
+  ctx.beginPath(); ctx.moveTo(sx, sy - 0.05 * ppi); ctx.lineTo(sx + 0.5 * ppi, sy - 1.45 * ppi); ctx.stroke(); ctx.restore();
+}
+
+/* ---------- flat layout editor ---------- */
+const flatCanvas = $("tw-flat"), flatBox = $("tw-flatbox");
+let flatK = 1; // css px per inch
+function renderFlat() {
+  const s = S(), c = circ(), cssW = flatBox.clientWidth || 600, dpr = Math.min(2, window.devicePixelRatio || 1);
+  flatK = cssW / c; const cssH = s.eH * flatK + 22;
+  flatCanvas.width = Math.round(cssW * dpr); flatCanvas.height = Math.round(cssH * dpr); flatCanvas.style.height = cssH + "px";
+  const g = flatCanvas.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const coat = hexRgb(colorHex(state.color)), lum = (coat[0] * 0.3 + coat[1] * 0.59 + coat[2] * 0.11) / 255, ink = lum > 0.6 ? "rgba(20,24,20," : "rgba(255,255,255,";
+  const top = 22, h = s.eH * flatK;
+  g.clearRect(0, 0, cssW, cssH);
+  g.fillStyle = `rgb(${coat})`; g.fillRect(0, top, cssW, h);
+  // non-engrave areas
+  g.save(); g.beginPath(); g.rect(0, top, cssW, h); zones().forEach(([a, b]) => g.rect(a * flatK, top, (b - a) * flatK, h)); g.clip("evenodd");
+  g.fillStyle = "rgba(0,0,0,.28)"; g.fillRect(0, top, cssW, h);
+  g.strokeStyle = ink + ".18)"; g.lineWidth = 1; for (let x = -h; x < cssW; x += 9) { g.beginPath(); g.moveTo(x, top + h); g.lineTo(x + h, top); g.stroke(); }
+  g.restore();
+  // labels
+  g.font = "500 10px 'JetBrains Mono', monospace"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = getComputedStyle(flatBox).color || "#666";
+  const muted = getComputedStyle(document.getElementById("twapp")).getPropertyValue("--muted").trim() || "#666";
+  g.fillStyle = muted;
+  [["FRONT", c / 4], [state.handle ? "HANDLE" : "SIDE", c / 2], ["BACK", c * 3 / 4]].forEach(([t, x]) => g.fillText(t, x * flatK, 11));
+  g.textAlign = "left"; g.fillText("SEAM", 3, 11); g.textAlign = "right"; g.fillText("SEAM", cssW - 3, 11);
+  // ghost of trimmed art
+  if (mask) {
+    g.save(); g.globalAlpha = 0.28; g.drawImage(tint(mask.all, ink + "1)"), 0, top, cssW, h); g.restore();
+    g.drawImage(metalFlat(mask.canvas), 0, top, cssW, h);
+  }
+  // zone outlines
+  g.save(); g.setLineDash([5, 4]); g.strokeStyle = ink + ".85)"; g.lineWidth = 1.2;
+  zones().forEach(([a, b]) => g.strokeRect(a * flatK + 0.5, top + 0.5, (b - a) * flatK - 1, h - 1)); g.restore();
+  // selection
+  const el = state.els.find(e => e.id === selected);
+  if (el) {
+    const [w, hh] = elSize(el); g.save(); g.translate(elX(el) * flatK, top + el.y * flatK); g.rotate(el.rot * Math.PI / 180);
+    const W2 = w * flatK / 2 + 4, H2 = hh * flatK / 2 + 4;
+    g.strokeStyle = "#2f6fd6"; g.lineWidth = 1.5; g.setLineDash([4, 3]); g.strokeRect(-W2, -H2, W2 * 2, H2 * 2); g.setLineDash([]);
+    g.fillStyle = "#fff"; g.strokeStyle = "#2f6fd6"; g.fillRect(W2 - 6, H2 - 6, 12, 12); g.strokeRect(W2 - 6, H2 - 6, 12, 12);
+    g.beginPath(); g.moveTo(0, -H2); g.lineTo(0, -H2 - 16); g.stroke(); g.beginPath(); g.arc(0, -H2 - 20, 6, 0, TAU); g.fill(); g.stroke();
+    g.restore();
+  }
+}
+function tint(src, color) { const c = document.createElement("canvas"); c.width = src.width; c.height = src.height; const g = c.getContext("2d"); g.drawImage(src, 0, 0); g.globalCompositeOperation = "source-in"; g.fillStyle = color; g.fillRect(0, 0, c.width, c.height); return c; }
+function metalFlat(src) {
+  const c = document.createElement("canvas"); c.width = src.width; c.height = src.height; const g = c.getContext("2d"); g.drawImage(src, 0, 0); g.globalCompositeOperation = "source-in";
+  const gr = g.createLinearGradient(0, 0, c.width, c.height * 0.4);
+  if (state.metal === "gold") { gr.addColorStop(0, "#9c7432"); gr.addColorStop(0.5, "#f0d287"); gr.addColorStop(1, "#b48a3c"); }
+  else if (state.metal === "rainbow") { ["#3fb6c9", "#7c5bd6", "#d958a8", "#e9b04a", "#4cc58a", "#3fb6c9"].forEach((col, i, a) => gr.addColorStop(i / (a.length - 1), col)); }
+  else { gr.addColorStop(0, "#9aa0a7"); gr.addColorStop(0.45, "#eef0f2"); gr.addColorStop(1, "#a9afb5"); }
+  g.fillStyle = gr; g.fillRect(0, 0, c.width, c.height); return c;
+}
+
+/* ---------- render orchestration ---------- */
+function renderAll() {
+  const r = viewCanvas.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+  const W = Math.max(50, Math.round(r.width * dpr)), H = Math.max(50, Math.round(r.height * dpr));
+  if (viewCanvas.width !== W || viewCanvas.height !== H) { viewCanvas.width = W; viewCanvas.height = H; }
+  renderView(viewCanvas.getContext("2d"), W, H, rot);
+  renderFlat(); renderWarnings(); renderSummary(); markVisible(); syncViewButtons();
+}
+function renderWarnings() { const ul = $("tw-warns"); ul.replaceChildren(...warnings.map(w => { const li = document.createElement("li"); li.textContent = w; return li; })); }
+function renderSummary() {
+  const s = S(); $("tw-summary").textContent = `${s.label} · ${state.color} · ${METALS[state.metal]}${state.handle ? " · handle" : ""} · ${money(priceTotal())}`;
+  $("tw-example").hidden = !state.example; $("tw-code").textContent = state.code; renderPrice();
+  const zs = zones(), wsum = zs.reduce((a, [x, y]) => a + (y - x), 0);
+  $("tw-dims").textContent = `Engrave area ${zs.length > 1 && state.zone !== "wrap" ? (zs[0][1] - zs[0][0]).toFixed(1) + "″ × " + s.eH.toFixed(1) + "″, front and back" : wsum.toFixed(1) + "″ × " + s.eH.toFixed(1) + "″"} · around the tumbler ${circ().toFixed(2)}″ (placeholder sizes)`;
+  const notes = { front: "One panel on the front, centered.", frontback: "Two panels: front and back. Drag art between them in the layout.", wrap: "All the way around the tumbler, including under the handle." };
+  $("tw-zone-note").textContent = notes[state.zone];
+}
+function animateTo(target) {
+  stopSpin(); const start = rot, delta = ((target - start + Math.PI) % TAU + TAU) % TAU - Math.PI, t0 = performance.now();
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const step = (now) => { const k = reduce ? 1 : Math.min(1, (now - t0) / 450); rot = start + delta * ease(k); renderViewOnly(); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function renderViewOnly() { renderView(viewCanvas.getContext("2d"), viewCanvas.width, viewCanvas.height, rot); markVisible(); }
+function stopSpin() { spin = false; cancelAnimationFrame(spinRaf); $("tw-v-spin").setAttribute("aria-pressed", "false"); }
+function setViewPressed(id) { ["tw-v-front", "tw-v-right", "tw-v-back", "tw-v-left"].forEach(b => $(b).setAttribute("aria-pressed", String(b === id))); }
+
+/* ---------- your design list ---------- */
+let inspHome = null;
+function sideOf(el) { return Math.abs(el.x) < circ() / 4 ? "front" : "back"; }
+function itemLabel(el) { return el.type === "text" ? "“" + (String(el.text).split("\n")[0].trim() || "(empty)").slice(0, 28) + "”" : (el.name || "Picture"); }
+function updateRowLabel(el) { document.querySelectorAll("#tw-items .tw-item").forEach(n => { if (n.dataset.id === el.id) n.querySelector(".tw-item-label").textContent = itemLabel(el); }); }
+function markVisible() {
+  const c = circ();
+  document.querySelectorAll("#tw-items .tw-item").forEach(n => {
+    const el = state.els.find(e => e.id === n.dataset.id); if (!el) return;
+    const th = (elX(el) / c) * TAU - Math.PI / 2; n.querySelector(".tw-seen").hidden = !(Math.cos(th - rot) > 0.35);
+  });
+}
+function refreshItems() {
+  const ul = $("tw-items"), insp = $("tw-inspector"); inspHome = inspHome || insp.parentNode; inspHome.appendChild(insp);
+  if (!state.els.some(e => e.id === selected)) selected = null;
+  ul.replaceChildren(); $("tw-items-empty").hidden = state.els.length > 0;
+  const showSide = state.zone !== "front";
+  state.els.forEach(el => {
+    const li = document.createElement("li"); li.className = "tw-item"; li.dataset.id = el.id; li.dataset.sel = el.id === selected ? "1" : "0";
+    const head = document.createElement("div"); head.className = "tw-item-head";
+    const nm = document.createElement("button"); nm.type = "button"; nm.className = "tw-item-name"; nm.id = "tw-item-" + el.id;
+    const kind = document.createElement("small"); kind.textContent = el.type === "text" ? "Text" : "Picture";
+    const lab = document.createElement("span"); lab.className = "tw-item-label"; lab.textContent = itemLabel(el); nm.append(kind, lab);
+    nm.onclick = () => { selected = selected === el.id ? null : el.id; refreshItems(); renderFlat(); };
+    const seen = document.createElement("span"); seen.className = "tw-seen"; seen.textContent = "in view"; seen.hidden = true;
+    head.append(nm, seen);
+    if (showSide) {
+      const seg = document.createElement("div"); seg.className = "tw-seg"; seg.setAttribute("role", "group"); seg.setAttribute("aria-label", "Side of the tumbler");
+      [["front", "Front"], ["back", "Back"]].forEach(([v, t]) => {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = t; b.id = "tw-side-" + v + "-" + el.id; b.setAttribute("aria-pressed", String(sideOf(el) === v));
+        b.onclick = () => { el.x = v === "front" ? 0 : circ() / 2; touched(); refreshItems(); rebuild(); animateTo(v === "front" ? 0 : Math.PI); setViewPressed(v === "front" ? "tw-v-front" : "tw-v-back"); };
+        seg.appendChild(b);
+      });
+      head.appendChild(seg);
+    }
+    const rm = document.createElement("button"); rm.type = "button"; rm.className = "tw-btn tw-danger"; rm.id = "tw-rm-" + el.id; rm.textContent = "Remove";
+    rm.onclick = () => { state.els = state.els.filter(e => e.id !== el.id); if (selected === el.id) selected = null; touched(); refreshItems(); rebuild(); };
+    head.appendChild(rm); li.appendChild(head);
+    if (el.id === selected) li.appendChild(insp);
+    ul.appendChild(li);
+  });
+  syncInspector(); markVisible();
+}
+
+/* ---------- controls ---------- */
+function buildControls() {
+  const sizeSeg = $("tw-size"); sizeSeg.replaceChildren(...Object.keys(SIZES).map(k => { const b = document.createElement("button"); b.type = "button"; b.id = "tw-size-" + k; b.textContent = SIZES[k].label; b.dataset.v = k; return b; }));
+  const metalSeg = $("tw-metal"); metalSeg.replaceChildren(...Object.keys(METALS).map(k => { const b = document.createElement("button"); b.type = "button"; b.id = "tw-metal-" + k; b.textContent = METALS[k]; b.dataset.v = k; return b; }));
+  $("tw-font").replaceChildren(...FONTS.map(f => { const o = document.createElement("option"); o.value = f.id; o.textContent = f.label; return o; }));
+  $("tw-tiles").replaceChildren(...STD.map(sd => { const b = document.createElement("button"); b.type = "button"; b.className = "tw-tile"; b.id = "tw-tile-" + sd.id; const im = document.createElement("img"); im.src = sd.src; im.alt = ""; const sp = document.createElement("span"); sp.textContent = sd.label; b.append(im, sp); b.onclick = () => addImage(sd.id, sd.label); return b; }));
+  sizeSeg.onclick = (e) => { const b = e.target.closest("button"); if (!b) return; state.size = b.dataset.v; fixColor(); syncControls(); rebuild(); };
+  metalSeg.onclick = (e) => { const b = e.target.closest("button"); if (!b || b.disabled) return; state.metal = b.dataset.v; syncControls(); rebuild(); };
+  $("tw-handle").onclick = (e) => { const b = e.target.closest("button"); if (!b) return; state.handle = b.dataset.v === "1"; syncControls(); rebuild(); };
+  $("tw-zone").onclick = (e) => { const b = e.target.closest("button"); if (!b) return; state.zone = b.dataset.v; syncControls(); rebuild(); };
+  $("tw-hcolor").onchange = (e) => { state.hcolor = e.target.value; rebuild(); };
+}
+function fixColor() {
+  const s = S(); if (!s.colors.includes(state.color)) state.color = "Black";
+  if (!s.colors.includes(state.hcolor)) state.hcolor = state.color;
+  if (state.metal !== "stainless" && !["Black", "White"].includes(state.color)) state.metal = "stainless";
+}
+function syncControls() {
+  const s = S();
+  [...$("tw-size").children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === state.size)));
+  [...$("tw-handle").children].forEach(b => b.setAttribute("aria-pressed", String((b.dataset.v === "1") === state.handle)));
+  [...$("tw-zone").children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === state.zone)));
+  const bw = ["Black", "White"].includes(state.color);
+  [...$("tw-metal").children].forEach(b => { b.setAttribute("aria-pressed", String(b.dataset.v === state.metal)); b.disabled = b.dataset.v !== "stainless" && !bw; });
+  $("tw-colors").replaceChildren(...s.colors.map(n => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "tw-swatch"; b.id = "tw-color-" + n.replace(/\s/g, ""); b.setAttribute("aria-pressed", String(n === state.color));
+    const dot = document.createElement("span"); dot.className = "tw-dot"; dot.style.background = colorHex(n); const t = document.createElement("span"); t.textContent = n; b.append(dot, t);
+    b.onclick = () => { if (state.hcolor === state.color) state.hcolor = n; state.color = n; fixColor(); syncControls(); rebuild(); }; return b;
+  }));
+  $("tw-hcolor-field").hidden = !state.handle;
+  $("tw-hcolor").replaceChildren(...s.colors.map(n => { const o = document.createElement("option"); o.value = n; o.textContent = n; o.selected = n === state.hcolor; return o; }));
+  refreshItems();
+}
+function syncInspector() {
+  const el = state.els.find(e => e.id === selected), box = $("tw-inspector");
+  box.hidden = !el; if (!el) return;
+  const isT = el.type === "text";
+  $("tw-sel-kind").textContent = isT ? "text" : (el.name || "picture");
+  $("tw-text-fields").hidden = !isT; $("tw-img-fields").hidden = isT; $("tw-mode-field").hidden = !PHOTO_MODE;
+  if (isT) { if (document.activeElement !== $("tw-text")) $("tw-text").value = el.text; $("tw-font").value = el.font; }
+  else { [...$("tw-mode").children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === el.mode))); $("tw-dark").value = el.dark; $("tw-invert").checked = el.invert; }
+  $("tw-scale-label").textContent = isT ? `Letter height ${el.size.toFixed(2)}″` : `Width ${el.w.toFixed(2)}″`;
+  const sc = $("tw-scale"); if (isT) { sc.min = 0.1; sc.max = 2.5; sc.value = el.size; } else { sc.min = 0.3; sc.max = Math.max(1, circ()).toFixed(2); sc.value = el.w; }
+  $("tw-rot").value = Math.round(el.rot);
+  $("tw-toback").hidden = true;
+  $("tw-toback").textContent = el.x > circ() / 4 ? "Move to front" : "Move to back";
+}
+function touched() { if (state.example) { state.example = false; } }
+function selEl() { return state.els.find(e => e.id === selected); }
+function wireInspector() {
+  $("tw-text").oninput = (e) => { const el = selEl(); if (!el) return; el.text = e.target.value; touched(); rebuild(); updateRowLabel(el); };
+  $("tw-font").onchange = (e) => { const el = selEl(); if (!el) return; el.font = e.target.value; touched(); ensureFont(el.font).then(rebuild); };
+  $("tw-mode").onclick = (e) => { const b = e.target.closest("button"); const el = selEl(); if (!b || !el) return; el.mode = b.dataset.v; touched(); syncInspector(); rebuild(); };
+  $("tw-dark").oninput = (e) => { const el = selEl(); if (!el) return; el.dark = +e.target.value; touched(); rebuild(); };
+  $("tw-invert").onchange = (e) => { const el = selEl(); if (!el) return; el.invert = e.target.checked; touched(); rebuild(); };
+  $("tw-scale").oninput = (e) => { const el = selEl(); if (!el) return; if (el.type === "text") el.size = +e.target.value; else el.w = +e.target.value; touched(); syncInspector(); rebuild(); };
+  $("tw-rot").oninput = (e) => { const el = selEl(); if (!el) return; el.rot = +e.target.value; touched(); rebuild(); };
+  $("tw-center").onclick = () => { const el = selEl(); if (!el) return; const back = sideOf(el) === "back"; el.x = back ? circ() / 2 : 0; el.y = S().eH / 2; el.rot = 0; touched(); syncInspector(); rebuild(); animateTo(back ? Math.PI : 0); setViewPressed(back ? "tw-v-back" : "tw-v-front"); };
+  $("tw-toback").onclick = () => { const el = selEl(); if (!el) return; const toBack = el.x <= circ() / 4; el.x = toBack ? circ() / 2 : 0; touched(); syncInspector(); rebuild(); animateTo(toBack ? Math.PI : 0); setViewPressed(toBack ? "tw-v-back" : "tw-v-front"); };
+  $("tw-delete").onclick = () => { state.els = state.els.filter(e => e.id !== selected); selected = null; touched(); refreshItems(); rebuild(); };
+}
+let idN = 10;
+function nextId() { idN++; return "e" + Date.now().toString(36) + idN; }
+function addImage(src, name) {
+  const s = S(), el = { id: nextId(), type: "image", src, name, x: 0, y: s.eH / 2, w: Math.min(2.2, circ() / 3 * 0.75), rot: 0, mode: "line", dark: 0, invert: false };
+  if (src.startsWith("up-")) { // pick a sensible default: photos dither, graphics threshold
+    const im = images[src]; el.mode = PHOTO_MODE && looksLikePhoto(im) ? "photo" : "line";
+    if (aspect(el) > 1.2) el.w = Math.min(el.w, (s.eH * 0.8) / aspect(el));
+  }
+  touched(); state.els.push(el); selected = el.id; refreshItems(); rebuild(); animateTo(0); setViewPressed("tw-v-front");
+}
+function looksLikePhoto(im) {
+  const c = document.createElement("canvas"); c.width = c.height = 64; const g = c.getContext("2d"); g.drawImage(im, 0, 0, 64, 64);
+  const p = g.getImageData(0, 0, 64, 64).data; let mid = 0; for (let i = 0; i < p.length; i += 4) { const l = 0.3 * p[i] + 0.59 * p[i + 1] + 0.11 * p[i + 2]; if (p[i + 3] > 200 && l > 50 && l < 205) mid++; }
+  return mid / 4096 > 0.35;
+}
+function addText() {
+  const s = S(), el = { id: nextId(), type: "text", text: "Your words", font: "Montserrat", size: 0.4, x: 0, y: s.eH * 0.8, rot: 0 };
+  touched(); state.els.push(el); selected = el.id; refreshItems(); rebuild(); animateTo(0); setViewPressed("tw-v-front");
+  setTimeout(() => { $("tw-text").focus(); $("tw-text").select(); }, 50);
+}
+async function handleFile(file) {
+  if (!file || !file.type.startsWith("image/")) return;
+  const url = URL.createObjectURL(file); const big = await loadImage("tmp", url); URL.revokeObjectURL(url);
+  if (!big) { warnings.push("That file wouldn't open as a picture. Try a JPG or PNG."); renderWarnings(); return; }
+  const key = "up-" + Date.now().toString(36);
+  await loadImage(key, downscale(big, 1600)); originals[key] = file;
+  addImage(key, file.name.replace(/\.[^.]+$/, "").slice(0, 40) || "Your picture");
+}
+function wireArt() {
+  $("tw-upload-btn").onclick = () => $("tw-file").click();
+  $("tw-file").onchange = (e) => { handleFile(e.target.files[0]); e.target.value = ""; };
+  $("tw-addtext").onclick = addText;
+  const drop = $("tw-drop");
+  drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("tw-over"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("tw-over"));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("tw-over"); handleFile(e.dataTransfer.files[0]); });
+}
+
+/* ---------- pointer editing on the flat layout ---------- */
+function flatPoint(e) { const r = flatCanvas.getBoundingClientRect(); return [(e.clientX - r.left) / flatK, (e.clientY - r.top - 22) / flatK]; }
+function local(el, p) { const a = -el.rot * Math.PI / 180, dx = p[0] - elX(el), dy = p[1] - el.y; return [dx * Math.cos(a) - dy * Math.sin(a), dx * Math.sin(a) + dy * Math.cos(a)]; }
+let drag = null;
+function wireFlat() {
+  flatCanvas.addEventListener("pointerdown", (e) => {
+    const p = flatPoint(e), pad = 8 / flatK; let hit = null, kind = "move";
+    const cur = selEl();
+    if (cur) { const [w, h] = elSize(cur), q = local(cur, p), W2 = w / 2 + 4 / flatK, H2 = h / 2 + 4 / flatK;
+      if (Math.abs(q[0] - W2) < pad && Math.abs(q[1] - H2) < pad) { hit = cur; kind = "scale"; }
+      else if (Math.hypot(q[0], q[1] + H2 + 20 / flatK) < pad * 1.2) { hit = cur; kind = "rotate"; } }
+    if (!hit) for (let i = state.els.length - 1; i >= 0; i--) { const el = state.els[i], [w, h] = elSize(el), q = local(el, p); if (Math.abs(q[0]) <= w / 2 + pad / 2 && Math.abs(q[1]) <= h / 2 + pad / 2) { hit = el; break; } }
+    if (!hit) { selected = null; refreshItems(); renderFlat(); return; }
+    const changed = selected !== hit.id; selected = hit.id; if (changed) refreshItems(); else syncInspector(); flatCanvas.setPointerCapture(e.pointerId);
+    const [w] = elSize(hit); drag = { kind, el: hit, p0: p, x0: hit.x, y0: hit.y, w0: hit.type === "text" ? hit.size : hit.w, d0: Math.hypot(...local(hit, p)), r0: hit.rot, a0: Math.atan2(p[1] - hit.y, p[0] - elX(hit)) };
+    renderFlat(); e.preventDefault();
+  });
+  flatCanvas.addEventListener("pointermove", (e) => {
+    if (!drag) { const p = flatPoint(e); flatCanvas.style.cursor = state.els.some(el => { const [w, h] = elSize(el), q = local(el, p); return Math.abs(q[0]) <= w / 2 && Math.abs(q[1]) <= h / 2; }) ? "move" : "default"; return; }
+    const p = flatPoint(e), el = drag.el;
+    if (drag.kind === "move") { el.x = drag.x0 + p[0] - drag.p0[0]; el.y = drag.y0 + p[1] - drag.p0[1]; }
+    else if (drag.kind === "scale") { const k = Math.max(0.05, Math.hypot(...local(el, p)) / Math.max(0.01, drag.d0)); if (el.type === "text") el.size = Math.max(0.08, Math.min(3, drag.w0 * k)); else el.w = Math.max(0.2, Math.min(circ(), drag.w0 * k)); }
+    else { let r = drag.r0 + (Math.atan2(p[1] - el.y, p[0] - elX(el)) - drag.a0) * 180 / Math.PI; r = ((r + 180) % 360 + 360) % 360 - 180; if (Math.abs(r) < 3) r = 0; el.rot = r; }
+    touched(); syncInspector(); scheduleRebuild();
+  });
+  const end = () => { if (drag) { drag = null; rebuild(); } };
+  flatCanvas.addEventListener("pointerup", end); flatCanvas.addEventListener("pointercancel", end);
+}
+let rbPending = false;
+function scheduleRebuild() { if (rbPending) return; rbPending = true; requestAnimationFrame(() => { rbPending = false; rebuild(); }); }
+
+/* ---------- stage rotation ---------- */
+function wireStage() {
+  const st = $("tw-stage"); let sd = null;
+  st.addEventListener("pointerdown", (e) => { if (e.target.closest("button")) return; stopSpin(); sd = { x: e.clientX, r: rot }; st.setPointerCapture(e.pointerId); });
+  st.addEventListener("pointermove", (e) => { if (!sd) return; rot = sd.r - (e.clientX - sd.x) * 0.012; setViewPressed(""); renderViewOnly(); });
+  const up = () => { sd = null; }; st.addEventListener("pointerup", up); st.addEventListener("pointercancel", up);
+  ["tw-v-front", "tw-v-right", "tw-v-back", "tw-v-left"].forEach(id => $(id).onclick = () => { setViewPressed(id); animateTo(+$(id).dataset.rot); });
+  $("tw-v-area").onclick = () => { showArea = !showArea; $("tw-v-area").setAttribute("aria-pressed", String(showArea)); renderViewOnly(); };
+  $("tw-v-spin").onclick = () => {
+    if (spin) { stopSpin(); return; }
+    spin = true; $("tw-v-spin").setAttribute("aria-pressed", "true"); setViewPressed(""); let last = performance.now();
+    const loop = (now) => { if (!spin) return; rot += (now - last) * 0.0011; last = now; renderViewOnly(); spinRaf = requestAnimationFrame(loop); };
+    spinRaf = requestAnimationFrame(loop);
+  };
+}
+
+/* ---------- design code, preview, export ---------- */
+function layoutCode() {
+  const els = state.els.map(el => { const o = { ...el }; if (el.type === "image" && el.src.startsWith("up-")) o.upload = true; return o; });
+  const json = JSON.stringify({ v: 1, code: state.code, size: state.size, color: state.color, metal: state.metal, handle: state.handle, hcolor: state.hcolor, zone: state.zone, els });
+  return btoa(unescape(encodeURIComponent(json)));
+}
+function describe() {
+  const s = S(); const lines = [`Tumbler: ${s.label}, ${state.color}, ${METALS[state.metal]} underneath${state.handle ? ", with " + state.hcolor + " handle" : ", no handle"}`, `Engrave area: ${{ front: "Front", frontback: "Front + Back", wrap: "Full wrap" }[state.zone]}`];
+  state.els.forEach((el, i) => lines.push(el.type === "text" ? `Text ${i + 1}: "${el.text.replace(/\n/g, " / ")}" in ${el.font}, ${el.size.toFixed(2)}in letters` : `Picture ${i + 1}: ${el.name}${el.src.startsWith("up-") ? " (customer upload, attached)" : " (Smoky Woods design)"}, ${el.w.toFixed(2)}in wide, ${el.mode === "photo" ? "photo dots" : "line art"}`));
+  return lines.join("\n");
+}
+function previewCanvas() {
+  const W = 1200, H = 900, c = document.createElement("canvas"); c.width = W; c.height = H; const g = c.getContext("2d");
+  g.fillStyle = "#e9ece5"; g.fillRect(0, 0, W, H);
+  const v = document.createElement("canvas"); v.width = 600; v.height = 820;
+  const views = state.zone === "front" && !photoReady() ? [[0, "Front"], [Math.PI / 2, "Side"]] : [[0, "Front"], [Math.PI, "Back"]];
+  views.forEach(([r, label], i) => { renderView(v.getContext("2d"), 600, 820, r); g.drawImage(v, i * 600, 20); g.fillStyle = "#333"; g.font = "600 26px Figtree, sans-serif"; g.textAlign = "center"; g.fillText(label, i * 600 + 300, 40); });
+  g.fillStyle = "#333"; g.font = "500 22px 'JetBrains Mono', monospace"; g.textAlign = "left"; g.fillText(`${state.code} · ${S().label} ${state.color} · ${METALS[state.metal]}`, 24, H - 24);
+  return c;
+}
+function engraveCanvas() {
+  procCache.clear();
+  const m = buildMask(EXPORT_PPI, true), c = document.createElement("canvas"); c.width = m.width; c.height = m.height; const g = c.getContext("2d");
+  g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.drawImage(tint(m, "#000"), 0, 0); procCache.clear(); return c;
+}
+const toBlob = (c) => new Promise(r => c.toBlob(r, "image/png"));
+async function offerSave(canvas, filename, statusEl) {
+  const dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+  if (!dl) { statusEl.textContent = "Saving files isn't available in this view."; return; }
+  try { await dl.save({ filename, data: await toBlob(canvas) }); statusEl.textContent = "Saved " + filename; }
+  catch (err) { statusEl.textContent = err && err.code === "declined" ? "Save cancelled." : "Couldn't save the file (" + (err && err.code || "error") + ")."; }
+}
+
+/* ---------- send ---------- */
+function wireSend() {
+  $("tw-form").addEventListener("submit", async (e) => {
+    e.preventDefault(); const st = $("tw-send-status"); st.style.color = "";
+    const name = $("tw-name").value.trim(), email = $("tw-email").value.trim();
+    if (!name || !/^\S+@\S+\.\S+$/.test(email)) { st.style.color = "var(--warn)"; st.textContent = "Add your name and a working email so Jim can reply."; return; }
+    if (!state.els.length) { st.style.color = "var(--warn)"; st.textContent = "There's nothing on the tumbler yet."; return; }
+    const fields = { _subject: `Tumbler design ${state.code} from ${name}`, design_code: state.code, name, email, phone: $("tw-phone").value.trim(), quantity: $("tw-qty").value, details: describe() + "\nPrice shown to customer: " + money(priceTotal()) + " (" + priceLines().map(l => l[0] + " " + money(l[1])).join(", ") + ")", notes: $("tw-notes").value.trim(), layout_code: layoutCode() };
+    if (!WEB) {
+      st.textContent = "This is your Claude copy, so nothing was emailed. On the website this button sends Jim the message below, with the preview picture and any upload attached.";
+      const box = $("tw-mail"); box.hidden = false; box.textContent = Object.entries(fields).map(([k, v]) => `${k}: ${v}`).join("\n");
+      return;
+    }
+    await sendWeb(fields, st);
+  });
+}
+async function sendWeb(fields, st) {
+  st.textContent = "Sending...";
+  try {
+    const preview = new File([await toBlob(previewCanvas())], state.code + "-preview.png", { type: "image/png" });
+    const form = document.createElement("form"); form.method = "POST"; form.action = "https://formsubmit.co/" + FORM_CODE; form.enctype = "multipart/form-data"; form.target = "tw-sink"; form.hidden = true;
+    const add = (k, v) => { const i = document.createElement("input"); i.type = "hidden"; i.name = k; i.value = v; form.appendChild(i); };
+    Object.entries(fields).forEach(([k, v]) => add(k, v)); add("_captcha", "false"); add("_template", "table");
+    const files = [preview, ...state.els.filter(el => el.src && originals[el.src]).map(el => originals[el.src])].slice(0, 4);
+    files.forEach((f, i) => { const inp = document.createElement("input"); inp.type = "file"; inp.name = i === 0 ? "attachment" : "attachment" + (i + 1); const dt = new DataTransfer(); dt.items.add(f); inp.files = dt.files; form.appendChild(inp); });
+    let sink = document.getElementById("tw-sink"); if (!sink) { sink = document.createElement("iframe"); sink.name = sink.id = "tw-sink"; sink.hidden = true; document.body.appendChild(sink); }
+    document.body.appendChild(form); form.submit(); setTimeout(() => form.remove(), 4000);
+    st.textContent = `Sent. Your design code is ${state.code}. Jim will email you back with a price.`;
+  } catch (err) { st.style.color = "var(--warn)"; st.textContent = "Sending failed. Email Jim and mention design code " + state.code + "."; }
+}
+
+/* ---------- shop tools (Claude copy only) ---------- */
+function wireShop() {
+  if (WEB) { $("tw-shop").remove(); return; }
+  const st = $("tw-shop-status");
+  $("tw-copy-btn").onclick = () => { const code = layoutCode(); const ta = $("tw-load"); navigator.clipboard.writeText(code).then(() => st.textContent = "Layout code copied.", () => { ta.value = code; ta.select(); st.textContent = "Copy didn't work here, so the code is in the box above, selected."; }); };
+  $("tw-load-btn").onclick = async () => {
+    let d; try { d = JSON.parse(decodeURIComponent(escape(atob($("tw-load").value.trim())))); } catch (e) { st.textContent = "That doesn't look like a layout code. Copy the whole layout_code value from the email."; return; }
+    state = { v: 1, code: d.code || newCode(), size: d.size, color: d.color, metal: d.metal, handle: !!d.handle, hcolor: d.hcolor || d.color, zone: d.zone, example: false, els: d.els || [] };
+    selected = null; fixColor(); syncControls();
+    const need = state.els.filter(el => el.type === "image" && !images[el.src]);
+    const box = $("tw-need"); box.hidden = !need.length; box.replaceChildren();
+    need.forEach(el => {
+      const lab = document.createElement("label"); lab.className = "tw-field"; lab.innerHTML = `<span class="tw-label"></span>`; lab.firstChild.textContent = `Pick the picture "${el.name}" saved from the email`;
+      const inp = document.createElement("input"); inp.type = "file"; inp.accept = "image/*"; inp.id = "tw-need-" + el.id;
+      inp.onchange = async () => { const f = inp.files[0]; if (!f) return; const u = URL.createObjectURL(f); const big = await loadImage("tmp", u); URL.revokeObjectURL(u); if (big) { await loadImage(el.src, downscale(big, 1600)); originals[el.src] = f; lab.remove(); procCache.clear(); rebuild(); } };
+      lab.appendChild(inp); box.appendChild(lab);
+    });
+    st.textContent = `Loaded ${state.code}.` + (need.length ? " Pick the attached picture below to finish." : "");
+    rebuild(); animateTo(0);
+  };
+  $("tw-export").onclick = () => offerSave(engraveCanvas(), `${state.code}-${state.size}oz-wrap-300dpi.png`, st);
+  $("tw-export-prev").onclick = () => offerSave(previewCanvas(), `${state.code}-preview.png`, st);
+}
+
+/* ---------- fonts ---------- */
+const fontReady = {};
+function ensureFont(id) { if (!fontReady[id]) { const f = FONTS.find(f => f.id === id) || FONTS[0]; fontReady[id] = document.fonts ? document.fonts.load(`${f.w} 40px "${f.id}"`).catch(() => { }) : Promise.resolve(); } return fontReady[id]; }
+
+/* ---------- boot ---------- */
+async function boot() {
+  buildControls(); wireInspector(); wireArt(); wireFlat(); wireStage(); wireSend(); wireShop();
+  await Promise.all(STD.map(sd => loadImage(sd.id, sd.src)));
+  const saved = restore();
+  if (saved && saved.state && saved.state.v === 1) {
+    for (const [k, src] of Object.entries(saved.uploads || {})) await loadImage(k, src);
+    state = saved.state; state.els = state.els.filter(el => el.type !== "image" || images[el.src]);
+  }
+  fixColor(); syncControls();
+  rebuild();
+  loadPhotos().then(() => { syncViewButtons(); renderAll(); });
+  Promise.all(FONTS.map(f => ensureFont(f.id))).then(() => { procCache.clear(); rebuild(); });
+  let rt = 0; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(renderAll, 60); }).observe($("tw-stage"));
+}
+boot();
+})();
+</script>
