@@ -175,10 +175,8 @@ var ITEMS = [
    colors:[["Rosewood","#8a3a22","knife-rosewood"],["Black Anodized Aluminum","#262626","knife-black"]]},
   {id:"box", group:"B", name:"Wood Memory Box", desc:"Medium, dark walnut, 8.5 x 6 x 3 in. Felt lined, hinged lid, comes in a gift box.",
    more:["Memory box details","memorybox-sheet"], colors:[["Dark Walnut","#5a4636","memorybox"]]},
-  {id:"tumbler", group:"B", name:"Engraved Tumbler", desc:"Insulated stainless tumbler with lid and straw, powder coated, laser engraved with the logo. Choose a size, then a color.",
-   sizes:[{label:"20 oz",colors:[["Black","#1b1e26","tmb-20-black"],["White","#ecebf1","tmb-20-white"],["Blue","#173a96","tmb-20-blue"],["Light Blue","#74b4ec","tmb-20-lightblue"],["Navy","#2a3463","tmb-20-navy"],["Maroon","#74162b","tmb-20-maroon"],["Red","#a3122a","tmb-20-red"],["Pink","#e660ab","tmb-20-pink"],["Teal","#5ccfe3","tmb-20-teal"],["Purple","#50388a","tmb-20-purple"],["Green","#34503f","tmb-20-green"],["Yellow","#f3b51e","tmb-20-yellow"],["Orange","#e97f2e","tmb-20-orange"]]},
-          {label:"30 oz with handle",colors:[["Black","#1b1e26","tmb-30-black"],["White","#ecebf1","tmb-30-white"],["Blue","#173a96","tmb-30-blue"],["Light Blue","#74b4ec","tmb-30-lightblue"],["Navy","#2a3463","tmb-30-navy"],["Maroon","#74162b","tmb-30-maroon"],["Red","#a3122a","tmb-30-red"],["Pink","#e660ab","tmb-30-pink"],["Teal","#5ccfe3","tmb-30-teal"],["Purple","#50388a","tmb-30-purple"],["Green","#34503f","tmb-30-green"],["Yellow","#f3b51e","tmb-30-yellow"],["Orange","#e97f2e","tmb-30-orange"]]},
-          {label:"40 oz with handle",colors:[["Black","#1b1e26","tmb-40-black"],["White","#ecebf1","tmb-40-white"],["Blue","#173a96","tmb-40-blue"],["Red","#a3122a","tmb-40-red"],["Pink","#e660ab","tmb-40-pink"],["Teal","#5ccfe3","tmb-40-teal"],["Purple","#50388a","tmb-40-purple"],["Green","#34503f","tmb-40-green"],["Yellow","#f3b51e","tmb-40-yellow"],["Orange","#e97f2e","tmb-40-orange"]]}]},
+  {id:"tumbler", group:"B", name:"Engraved Tumbler (20 oz)", desc:"20 oz insulated stainless tumbler, no handle, with lid and straw, powder coated, laser engraved with the logo.",
+   colors:[["Black","#1b1e26","tmb-20-black"],["White","#ecebf1","tmb-20-white"],["Blue","#173a96","tmb-20-blue"],["Light Blue","#74b4ec","tmb-20-lightblue"],["Navy","#2a3463","tmb-20-navy"],["Maroon","#74162b","tmb-20-maroon"],["Red","#a3122a","tmb-20-red"],["Pink","#e660ab","tmb-20-pink"],["Teal","#5ccfe3","tmb-20-teal"],["Purple","#50388a","tmb-20-purple"],["Green","#34503f","tmb-20-green"],["Yellow","#f3b51e","tmb-20-yellow"],["Orange","#e97f2e","tmb-20-orange"]]},
   {id:"journal", group:"B", name:"Leather-Feel Notebook Journal", desc:"8.75 x 5.5 in, 240 lined pages, refillable, black gift box.",
    more:["All 12 journal colors","journal-colors"], img:"journal",
    colors:[["1 White","#efefef"],["2 Metallic Gold","#cdbb8b"],["3 Holographic","#d9d0ee","holo"],["4 Rawhide","#b86d3f"],["5 Navy","#2b3a6b","journal"],["6 Metallic Silver","#c4c7cf"],["7 Brown","#5a3a33"],["8 Red","#8d3346"],["9 Gray","#7a7a7a"],["10 Pink","#c4447a"],["11 Black","#22252b"],["12 Sage","#3f5a3f"]]}
@@ -193,7 +191,8 @@ function pts(g){return g==="A"?2:1}
 function used(){return picks.reduce(function(s,p){return s+pts(p.group)},0)}
 function el(t,a,h){var e=document.createElement(t);if(a)for(var k in a){if(k==="class")e.className=a[k];else e.setAttribute(k,a[k])}if(h!=null)e.innerHTML=h;return e}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function imgFor(it,ci){var cc=cols(it),c=cc[ci];if(c&&c[2]&&c[2]!=="holo")return IMG+c[2]+".jpg";if(it.img)return IMG+it.img+".jpg";if(cc[0]&&cc[0][2])return IMG+cc[0][2]+".jpg";return null}
+function defIdx(it){var cc=cols(it),k;for(var n=0;n<cc.length;n++){if(/navy/i.test(cc[n][0]))return n}for(n=0;n<cc.length;n++){if(/cobalt|blue/i.test(cc[n][0])&&!/light/i.test(cc[n][0]))return n}return 0}
+function imgFor(it,ci){var cc=cols(it);if(ci==null)ci=defIdx(it);var c=cc[ci];if(c&&c[2]&&c[2]!=="holo")return IMG+c[2]+".jpg";if(it.img)return IMG+it.img+".jpg";if(cc[0]&&cc[0][2])return IMG+cc[0][2]+".jpg";return null}
 
 function render(){
   var cat=document.getElementById("catalog");cat.innerHTML="";
@@ -208,7 +207,7 @@ function render(){
 function card(it){
   var c=el("article",{"class":"card"});
   var w=el("div",{"class":"well"});
-  var src=imgFor(it,sel[it.id]);
+  var src=imgFor(it,sel[it.id]);var shown=sel[it.id]!=null?sel[it.id]:defIdx(it);
   if(src){var im=el("img",{src:src,alt:it.name+(cols(it)[sel[it.id]]?", "+cols(it)[sel[it.id]][0]:""),loading:"lazy"});w.appendChild(im)}
   else w.appendChild(el("div",{"class":"ph"},(it.ph||"")+"Photo coming soon"));
   w.appendChild(el("span",{"class":"badge"},"GROUP "+it.group+" &middot; "+pts(it.group)+" PT"+(pts(it.group)>1?"S":"")));
