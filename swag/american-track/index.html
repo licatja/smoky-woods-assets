@@ -36,7 +36,8 @@ button,input{font:inherit;color:inherit}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
 header.top{border-bottom:1px solid var(--line);background:var(--surface)}
 header.top .wrap{display:flex;align-items:center;gap:14px;padding-top:14px;padding-bottom:14px}
-header.top img{width:58px;height:auto}
+header.top img{width:128px;height:auto;background:#fff;border-radius:8px;padding:6px;flex:none}
+@media (max-width:600px){header.top img{width:88px}}
 header.top .who{font-size:13px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
 h1{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,5vw,44px);line-height:1;margin:2px 0 0;letter-spacing:.01em}
 .intro{padding:22px 0 8px;max-width:760px}
@@ -108,6 +109,7 @@ dialog .bar{display:flex;justify-content:space-between;align-items:center;paddin
 </head>
 <body>
 <header class="top"><div class="wrap">
+  <img src="img/at-logo.png" alt="American Track logo">
   <div><div class="who">American Track team gear</div><h1>Pick your American Track gear</h1></div>
 </div></header>
 
