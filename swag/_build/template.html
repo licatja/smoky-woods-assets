@@ -289,6 +289,9 @@ function summary(){return "Name: "+nameVal()+"\nPick 1: "+(picks[0]?label(picks[
 document.getElementById("fn").addEventListener("input",updateSubmit);document.getElementById("ln").addEventListener("input",updateSubmit);
 document.getElementById("submit").addEventListener("click",function(e){
   if(this.getAttribute("aria-disabled")==="true"){e.preventDefault();return}
+  try{var prev=localStorage.getItem("atOrderSent");
+    if(prev&&this.getAttribute("href")!=="#"&&!confirm("An order was already sent from this device"+(prev!=="1"?" for "+prev:"")+".\n\nIf you are a different person, press OK to continue. If this is the same person, press Cancel so you do not order twice.")){e.preventDefault();return}
+    if(this.getAttribute("href")!=="#")localStorage.setItem("atOrderSent",nameVal()||"1")}catch(x){}
   if(this.getAttribute("href")==="#"){e.preventDefault();document.getElementById("previewnote").hidden=false;document.getElementById("donemsg").innerHTML="<b>Preview:</b> here is what would be sent.";}
   document.getElementById("summary").textContent=summary();
   document.getElementById("done").classList.add("show");
