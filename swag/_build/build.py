@@ -13,6 +13,6 @@ p=p.replace('src="__IMG__at-logo.png"','src="'+inl('at-logo.png')+'"')
 names=[f[:-4] for f in os.listdir(D+'img') if f.endswith('.jpg')]
 m='{'+','.join('"%s":"%s"'%(n,inl(n+'.jpg')) for n in names)+'}'
 p=p.replace('var IMG = "__IMG__";','var IMG = "";var __M='+m+';')
-p=p.replace('return IMG+c[2]+".jpg"','return __M[c[2]]').replace('return IMG+it.img+".jpg"','return __M[it.img]').replace('return IMG+it.colors[0][2]+".jpg"','return __M[it.colors[0][2]]').replace('IMG+it.more[1]+".jpg"','__M[it.more[1]]')
+p=p.replace('return IMG+c[2]+".jpg"','return __M[c[2]]').replace('return IMG+it.img+".jpg"','return __M[it.img]').replace('return IMG+it.colors[0][2]+".jpg"','return __M[it.colors[0][2]]').replace('IMG+it.more[1]+".jpg"','__M[it.more[1]]').replace('IMG+it.sheetFor[k]+".jpg"','__M[it.sheetFor[k]]')
 assert '__IMG__' not in p
 open(os.path.join(B,'preview.html'),'w').write(p)
