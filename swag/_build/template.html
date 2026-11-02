@@ -82,6 +82,7 @@ aside.panel{position:sticky;top:12px;background:var(--surface);border:1px solid 
 .picks .t b{display:block}
 .rm{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 8px;font-size:13px;cursor:pointer}
 .empty{font-size:14px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:12px;margin:0 0 12px}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 label.f{display:block;font-weight:600;font-size:14px;margin:0 0 4px}
 input.txt{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
 .submit{width:100%;margin-top:12px;border:0;border-radius:8px;padding:12px;font-weight:700;font-size:16px;background:var(--ok);color:#fff;cursor:pointer;text-align:center;display:block;text-decoration:none}
@@ -126,10 +127,14 @@ dialog .bar{display:flex;justify-content:space-between;align-items:center;paddin
       <p class="meterlabel" id="meterlabel">0 of 2 points used</p>
       <ul class="picks" id="picks"></ul>
       <p class="empty" id="empty">Nothing picked yet. Choose a color on any item and tap Add.</p>
-      <label class="f" for="who">Your first and last name</label>
-      <input class="txt" id="who" autocomplete="name" maxlength="80" placeholder="e.g. Pat Morgan">
+      <div class="names">
+        <div><label class="f" for="fn">First name</label>
+        <input class="txt" id="fn" autocomplete="given-name" maxlength="40" placeholder="e.g. Pat" required></div>
+        <div><label class="f" for="ln">Last name</label>
+        <input class="txt" id="ln" autocomplete="family-name" maxlength="40" placeholder="e.g. Morgan" required></div>
+      </div>
       <a class="submit" id="submit" href="#" target="_blank" rel="noopener" aria-disabled="true">Submit my picks</a>
-      <p class="hint" id="hint">Add at least one item and your name to submit.</p>
+      <p class="hint" id="hint">Add at least one item, plus your first and last name, to submit.</p>
       <div class="done" id="done">
         <span id="donemsg"><b>Almost done.</b> A Microsoft Form just opened in a new tab with your name and picks filled in. Press <b>Submit</b> there to finish.</span>
         <pre id="summary"></pre>
@@ -244,12 +249,15 @@ function renderPanel(){
   });
   updateSubmit();
 }
-function nameVal(){return document.getElementById("who").value.trim().replace(/\s+/g," ")}
+function clean(id){return document.getElementById(id).value.trim().replace(/\s+/g," ")}
+function letters(s){return (s.match(/[A-Za-z\u00C0-\u024F]/g)||[]).length}
+function nameOk(){return letters(clean("fn"))>=2&&letters(clean("ln"))>=2}
+function nameVal(){return clean("fn")+" "+clean("ln")}
 function updateSubmit(){
   var s=document.getElementById("submit"), h=document.getElementById("hint");
-  var ok=picks.length>0&&nameVal().length>=2;
+  var ok=picks.length>0&&nameOk();
   s.setAttribute("aria-disabled",String(!ok));
-  if(!ok){h.textContent=picks.length?"Add your name to submit.":"Add at least one item and your name to submit.";s.href="#";return}
+  if(!ok){h.textContent=!picks.length?"Add at least one item, plus your first and last name, to submit.":(letters(clean("fn"))<2?"Enter your first name (at least 2 letters).":"Enter your last name (at least 2 letters, no initials).");s.href="#";return}
   h.textContent=used()<BUDGET?"You still have 1 point left. You can add another Group B item, or submit as is.":"Ready when you are.";
   if(FORM_LINK.indexOf("XNAMEX")>-1&&FORM_LINK.indexOf("http")===0){
     s.href=FORM_LINK.replace("XNAMEX",encodeURIComponent(nameVal()))
@@ -258,7 +266,7 @@ function updateSubmit(){
   } else s.href="#";
 }
 function summary(){return "Name: "+nameVal()+"\nPick 1: "+(picks[0]?label(picks[0]):"(none)")+"\nPick 2: "+(picks[1]?label(picks[1]):"(none)")}
-document.getElementById("who").addEventListener("input",updateSubmit);
+document.getElementById("fn").addEventListener("input",updateSubmit);document.getElementById("ln").addEventListener("input",updateSubmit);
 document.getElementById("submit").addEventListener("click",function(e){
   if(this.getAttribute("aria-disabled")==="true"){e.preventDefault();return}
   if(this.getAttribute("href")==="#"){e.preventDefault();document.getElementById("previewnote").hidden=false;document.getElementById("donemsg").innerHTML="<b>Preview:</b> here is what would be sent.";}
