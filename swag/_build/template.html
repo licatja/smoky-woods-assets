@@ -138,8 +138,9 @@ dialog .bar{display:flex;justify-content:space-between;align-items:center;paddin
         <div><label class="f" for="ln">Last name</label>
         <input class="txt" id="ln" autocomplete="family-name" maxlength="40" placeholder="e.g. Morgan" required></div>
       </div>
-      <a class="submit" id="submit" href="#" target="_blank" rel="noopener" aria-disabled="true">Submit my picks</a>
-      <p class="hint" id="hint">Add at least one item, plus your first and last name, to submit.</p>
+      <a class="submit" id="submit" href="#" target="_blank" rel="noopener" aria-disabled="true">Review and send my picks</a>
+      <p class="hint" id="nextstep"><b>Next screen:</b> your name and picks will be filled in. Check them, then press <b>Submit</b> on that screen to send your order.</p>
+      <p class="hint" id="hint">Add at least one item, plus your first and last name, to continue.</p>
       <div class="done" id="done">
         <span id="donemsg"><b>Almost done.</b> A Microsoft Form just opened in a new tab with your name and picks filled in. Press <b>Submit</b> there to finish.</span>
         <pre id="summary"></pre>
@@ -276,7 +277,7 @@ function updateSubmit(){
   var s=document.getElementById("submit"), h=document.getElementById("hint");
   var ok=picks.length>0&&nameOk();
   s.setAttribute("aria-disabled",String(!ok));
-  if(!ok){h.textContent=!picks.length?"Add at least one item, plus your first and last name, to submit.":(letters(clean("fn"))<2?"Enter your first name (at least 2 letters).":"Enter your last name (at least 2 letters, no initials).");s.href="#";return}
+  if(!ok){h.textContent=!picks.length?"Add at least one item, plus your first and last name, to continue.":(letters(clean("fn"))<2?"Enter your first name (at least 2 letters).":"Enter your last name (at least 2 letters, no initials).");s.href="#";return}
   h.textContent=used()<BUDGET?"You still have 1 point left. You can add another Group B item, or submit as is.":"Ready when you are.";
   if(FORM_LINK.indexOf("XNAMEX")>-1&&FORM_LINK.indexOf("http")===0){
     s.href=FORM_LINK.replace("XNAMEX",encodeURIComponent(nameVal()))
