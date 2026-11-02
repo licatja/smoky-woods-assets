@@ -9,7 +9,6 @@ def inl(f):
     ext='png' if f.endswith('.png') else 'jpeg'
     return 'data:image/%s;base64,'%ext+base64.b64encode(open(D+'img/'+f,'rb').read()).decode()
 p=t.replace('__FORM_LINK__','')
-p=p.replace('src="__IMG__smoky-woods-logo.png"','src="'+inl('smoky-woods-logo.png')+'"')
 names=[f[:-4] for f in os.listdir(D+'img') if f.endswith('.jpg')]
 m='{'+','.join('"%s":"%s"'%(n,inl(n+'.jpg')) for n in names)+'}'
 p=p.replace('var IMG = "__IMG__";','var IMG = "";var __M='+m+';')
