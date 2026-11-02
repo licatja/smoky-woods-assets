@@ -65,6 +65,9 @@ h2 small{font-family:var(--f-body);font-size:14px;font-weight:600;color:var(--mu
 .swatches{display:flex;flex-wrap:wrap;gap:6px}
 .sw{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0;position:relative}
 .sw[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.sizes{display:flex;flex-wrap:wrap;gap:6px}
+.szb{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:5px 9px;font-size:13px;font-weight:600;cursor:pointer}
+.szb[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .sw.holo{background:linear-gradient(135deg,#f3d7f0,#c9e3f7,#e8f0c8,#f6cfe0)!important}
 .add{margin-top:auto;border:0;border-radius:8px;padding:10px 12px;font-weight:700;background:var(--accent);color:var(--accent-ink);cursor:pointer}
 .add:disabled{background:var(--surface-2);color:var(--muted);cursor:not-allowed}
@@ -115,7 +118,7 @@ dialog .bar{display:flex;justify-content:space-between;align-items:center;paddin
 
 <main class="wrap">
   <section class="intro">
-    <p>Everything below is laser engraved with the American Track logo. Pick what you want, choose a color, add your name, and submit. That's it.</p>
+    <p>Everything below is laser engraved with the American Track logo (pictures are examples). Pick what you want, choose a color, add your name, and submit. That's it.</p>
     <div class="rule"><span>You have 2 points</span><span>Group A item = 2 points</span><span>Group B item = 1 point</span></div>
     <p style="margin-top:10px">So you can take <b>one</b> Group A item, or <b>two</b> Group B items (two of the same is fine).</p>
   </section>
@@ -167,23 +170,29 @@ var ITEMS = [
    colors:[["Beach","#d6c4a4","rtic-beach"],["Berry Jam","#6e2a6b","rtic-berryjam"],["Black","#1f1f1f","rtic-black"],["Chocolate Brown","#4b2624","rtic-chocolatebrown"],["Flag Red","#c4232f","rtic-chocolateflagred"],["Lavender Glitter","#cdb5e3","rtic-chocolatelavenderglitter"],["Cobalt","#2a4fa8","rtic-cobalt"],["Cool Grey","#dcdcdc","rtic-coolgrey"],["Periwinkle","#9aa3d6","rtic-coolperiwinkle"],["Pine Tree","#1f6a45","rtic-coolpinetree"],["Denim","#79a7d6","rtic-denim"],["Graphite","#4b4b4d","rtic-graphite"],["Navy","#1d2a44","rtic-navy"],["Olive","#6b6c4a","rtic-olive"],["Pale Pink","#efc6d0","rtic-palepink"],["Persimmon","#e8432f","rtic-persimmon"],["White","#f4f4f4","rtic-white"]]},
   {id:"ammo", group:"A", name:".50 Cal Ammo Can", desc:"Steel ammo can, engraved on the side.",
    colors:[["Black","#1f1f1f","ammo-black"],["Green","#4c5a3c","ammo-green"]]},
-  {id:"knife", group:"B", name:"Engraved Knife", desc:"Photo and options coming soon.", ph:PH_KNIFE, colors:[]},
+  {id:"knife", group:"B", name:"The Beast Pocket Knife", desc:"Spring-assist folding knife, 440 stainless blade, 7.75 in long. Belt clip, bottle opener, seatbelt cutter.",
+   colors:[["Olive Wood","#c79a5b","knife-olivewood"],["Rosewood","#8a3a22","knife-rosewood"],["Black","#262626","knife-black"]]},
   {id:"box", group:"B", name:"Wood Memory Box", desc:"Medium, dark walnut, 8.5 x 6 x 3 in. Felt lined, hinged lid, comes in a gift box.",
    more:["Memory box details","memorybox-sheet"], colors:[["Dark Walnut","#5a4636","memorybox"]]},
-  {id:"swtumbler", group:"B", name:"Engraved Tumbler", desc:"Laser engraved tumbler. Photo and colors coming soon.", ph:PH_TUMBLER, colors:[]},
+  {id:"tumbler", group:"B", name:"Engraved Tumbler", desc:"Insulated stainless tumbler with lid and straw, powder coated, laser engraved with the logo. Choose a size, then a color.",
+   sizes:[{label:"20 oz",colors:[["Black","#1b1e26","tmb-20-black"],["White","#ecebf1","tmb-20-white"],["Blue","#173a96","tmb-20-blue"],["Light Blue","#74b4ec","tmb-20-lightblue"],["Navy","#2a3463","tmb-20-navy"],["Maroon","#74162b","tmb-20-maroon"],["Red","#a3122a","tmb-20-red"],["Pink","#e660ab","tmb-20-pink"],["Teal","#5ccfe3","tmb-20-teal"],["Purple","#50388a","tmb-20-purple"],["Green","#34503f","tmb-20-green"],["Yellow","#f3b51e","tmb-20-yellow"],["Orange","#e97f2e","tmb-20-orange"]]},
+          {label:"30 oz with handle",colors:[["Black","#1b1e26","tmb-30-black"],["White","#ecebf1","tmb-30-white"],["Blue","#173a96","tmb-30-blue"],["Light Blue","#74b4ec","tmb-30-lightblue"],["Navy","#2a3463","tmb-30-navy"],["Maroon","#74162b","tmb-30-maroon"],["Red","#a3122a","tmb-30-red"],["Pink","#e660ab","tmb-30-pink"],["Teal","#5ccfe3","tmb-30-teal"],["Purple","#50388a","tmb-30-purple"],["Green","#34503f","tmb-30-green"],["Yellow","#f3b51e","tmb-30-yellow"],["Orange","#e97f2e","tmb-30-orange"]]},
+          {label:"40 oz with handle",colors:[["Black","#1b1e26","tmb-40-black"],["White","#ecebf1","tmb-40-white"],["Blue","#173a96","tmb-40-blue"],["Red","#a3122a","tmb-40-red"],["Pink","#e660ab","tmb-40-pink"],["Teal","#5ccfe3","tmb-40-teal"],["Purple","#50388a","tmb-40-purple"],["Green","#34503f","tmb-40-green"],["Yellow","#f3b51e","tmb-40-yellow"],["Orange","#e97f2e","tmb-40-orange"]]}]},
   {id:"journal", group:"B", name:"Leather-Feel Notebook Journal", desc:"8.75 x 5.5 in, 240 lined pages, refillable, black gift box.",
    more:["All 12 journal colors","journal-colors"], img:"journal",
    colors:[["1 White","#efefef"],["2 Gold","#cdbb8b"],["3 Holographic","#d9d0ee","holo"],["4 Rawhide","#b86d3f"],["5 Navy Blue","#2b3a6b","journal"],["6 Silver","#c4c7cf"],["7 Dark Brown","#5a3a33"],["8 Burgundy","#8d3346"],["9 Gray","#7a7a7a"],["10 Pink","#c4447a"],["11 Black","#22252b"],["12 Green","#3f5a3f"]]}
 ];
 /* ===================================================== */
 
-var picks=[], sel={};
-ITEMS.forEach(function(it){if(it.colors.length===1)sel[it.id]=0});
+var picks=[], sel={}, sz={};
+function cols(it){return it.sizes?it.sizes[sz[it.id]||0].colors:it.colors}
+function sizeLabel(it){return it.sizes?it.sizes[sz[it.id]||0].label:""}
+ITEMS.forEach(function(it){if(cols(it).length===1)sel[it.id]=0});
 function pts(g){return g==="A"?2:1}
 function used(){return picks.reduce(function(s,p){return s+pts(p.group)},0)}
 function el(t,a,h){var e=document.createElement(t);if(a)for(var k in a){if(k==="class")e.className=a[k];else e.setAttribute(k,a[k])}if(h!=null)e.innerHTML=h;return e}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function imgFor(it,ci){var c=it.colors[ci];if(c&&c[2]&&c[2]!=="holo")return IMG+c[2]+".jpg";if(it.img)return IMG+it.img+".jpg";if(it.colors[0]&&it.colors[0][2])return IMG+it.colors[0][2]+".jpg";return null}
+function imgFor(it,ci){var cc=cols(it),c=cc[ci];if(c&&c[2]&&c[2]!=="holo")return IMG+c[2]+".jpg";if(it.img)return IMG+it.img+".jpg";if(cc[0]&&cc[0][2])return IMG+cc[0][2]+".jpg";return null}
 
 function render(){
   var cat=document.getElementById("catalog");cat.innerHTML="";
@@ -199,7 +208,7 @@ function card(it){
   var c=el("article",{"class":"card"});
   var w=el("div",{"class":"well"});
   var src=imgFor(it,sel[it.id]);
-  if(src){var im=el("img",{src:src,alt:it.name+(it.colors[sel[it.id]]?", "+it.colors[sel[it.id]][0]:""),loading:"lazy"});w.appendChild(im)}
+  if(src){var im=el("img",{src:src,alt:it.name+(cols(it)[sel[it.id]]?", "+cols(it)[sel[it.id]][0]:""),loading:"lazy"});w.appendChild(im)}
   else w.appendChild(el("div",{"class":"ph"},(it.ph||"")+"Photo coming soon"));
   w.appendChild(el("span",{"class":"badge"},"GROUP "+it.group+" &middot; "+pts(it.group)+" PT"+(pts(it.group)>1?"S":"")));
   c.appendChild(w);
@@ -207,11 +216,18 @@ function card(it){
   b.appendChild(el("h4",{"class":"name"},esc(it.name)));
   b.appendChild(el("p",{"class":"desc"},esc(it.desc)));
   if(it.more){var m=el("button",{"class":"more",type:"button"},esc(it.more[0]));m.onclick=function(){openDlg(it.more[0],IMG+it.more[1]+".jpg")};b.appendChild(m)}
-  if(it.colors.length){
+  if(it.sizes){
+    b.appendChild(el("div",{"class":"colorlabel"},"Size: <b>"+esc(sizeLabel(it))+"</b>"));
+    var sg=el("div",{"class":"sizes",role:"group","aria-label":it.name+" sizes"});
+    it.sizes.forEach(function(s,i){var sb=el("button",{"class":"szb",type:"button","aria-pressed":String((sz[it.id]||0)===i)},esc(s.label));sb.onclick=function(){sz[it.id]=i;if(sel[it.id]!=null&&!cols(it)[sel[it.id]])sel[it.id]=null;render()};sg.appendChild(sb)});
+    b.appendChild(sg);
+  }
+  var CC=cols(it);
+  if(CC.length){
     var ci=sel[it.id];
-    b.appendChild(el("div",{"class":"colorlabel"},"Color: <b>"+(ci==null?"choose one":esc(it.colors[ci][0]))+"</b>"));
+    b.appendChild(el("div",{"class":"colorlabel"},"Color: <b>"+(ci==null?"choose one":esc(CC[ci][0]))+"</b>"));
     var sw=el("div",{"class":"swatches",role:"group","aria-label":it.name+" colors"});
-    it.colors.forEach(function(col,i){
+    CC.forEach(function(col,i){
       var s=el("button",{"class":"sw"+(col[2]==="holo"?" holo":""),type:"button",title:col[0],"aria-label":col[0],"aria-pressed":String(ci===i)});
       s.style.background=col[1];
       s.onclick=function(){sel[it.id]=i;render()};
@@ -223,10 +239,10 @@ function card(it){
   var add=el("button",{"class":"add",type:"button"},"Add");
   var why="";
   if(need>left){add.disabled=true;why=left===0?"You've used both points.":"Needs 2 points; you have "+left+" left."}
-  else if(it.colors.length&&sel[it.id]==null){add.disabled=true;why="Pick a color first."}
+  else if(CC.length&&sel[it.id]==null){add.disabled=true;why="Pick a color first."}
   add.onclick=function(){
     var ci=sel[it.id];
-    picks.push({id:it.id,group:it.group,name:it.name,color:it.colors.length?it.colors[ci][0]:"",img:imgFor(it,ci)});
+    picks.push({id:it.id,group:it.group,name:it.name+(it.sizes?" "+sizeLabel(it):""),color:CC.length?CC[ci][0]:"",img:imgFor(it,ci)});
     render();
   };
   b.appendChild(add);
