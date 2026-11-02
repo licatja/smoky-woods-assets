@@ -170,8 +170,9 @@ var ITEMS = [
    colors:[["Beach","#d6c4a4","rtic-beach"],["Berry Jam","#6e2a6b","rtic-berryjam"],["Black","#1f1f1f","rtic-black"],["Chocolate Brown","#4b2624","rtic-chocolatebrown"],["Flag Red","#c4232f","rtic-chocolateflagred"],["Lavender Glitter","#cdb5e3","rtic-chocolatelavenderglitter"],["Cobalt","#2a4fa8","rtic-cobalt"],["Cool Grey","#dcdcdc","rtic-coolgrey"],["Periwinkle","#9aa3d6","rtic-coolperiwinkle"],["Pine Tree","#1f6a45","rtic-coolpinetree"],["Denim","#79a7d6","rtic-denim"],["Graphite","#4b4b4d","rtic-graphite"],["Navy","#1d2a44","rtic-navy"],["Olive","#6b6c4a","rtic-olive"],["Pale Pink","#efc6d0","rtic-palepink"],["Persimmon","#e8432f","rtic-persimmon"],["White","#f4f4f4","rtic-white"]]},
   {id:"ammo", group:"A", name:".50 Cal Ammo Can", desc:"Steel ammo can, engraved on the side.",
    colors:[["Black","#1f1f1f","ammo-black"],["Green","#4c5a3c","ammo-green"]]},
-  {id:"knife", group:"B", name:"The Beast Pocket Knife", desc:"Spring-assist folding knife, 440 stainless blade, 7.75 in long. Belt clip, bottle opener, seatbelt cutter.",
-   colors:[["Olive Wood","#c79a5b","knife-olivewood"],["Rosewood","#8a3a22","knife-rosewood"],["Black","#262626","knife-black"]]},
+  {id:"knife", group:"B", name:"The Beast Pocket Knife", desc:"Spring-assist folding knife with 440 stainless blade, safety liner lock and belt clip. 7.75 in long, 1 in wide, 0.5 lb. Seatbelt/line cutter, window breaker and bottle opener. Comes in a window display box.",
+   sheetFor:{"Rosewood":"knife-sheet-rosewood","Black Anodized Aluminum":"knife-sheet-black"},
+   colors:[["Rosewood","#8a3a22","knife-rosewood"],["Black Anodized Aluminum","#262626","knife-black"]]},
   {id:"box", group:"B", name:"Wood Memory Box", desc:"Medium, dark walnut, 8.5 x 6 x 3 in. Felt lined, hinged lid, comes in a gift box.",
    more:["Memory box details","memorybox-sheet"], colors:[["Dark Walnut","#5a4636","memorybox"]]},
   {id:"tumbler", group:"B", name:"Engraved Tumbler", desc:"Insulated stainless tumbler with lid and straw, powder coated, laser engraved with the logo. Choose a size, then a color.",
@@ -216,6 +217,7 @@ function card(it){
   b.appendChild(el("h4",{"class":"name"},esc(it.name)));
   b.appendChild(el("p",{"class":"desc"},esc(it.desc)));
   if(it.more){var m=el("button",{"class":"more",type:"button"},esc(it.more[0]));m.onclick=function(){openDlg(it.more[0],IMG+it.more[1]+".jpg")};b.appendChild(m)}
+  if(it.sheetFor){var m2=el("button",{"class":"more",type:"button"},"Knife details and specs");m2.onclick=function(){var c=cols(it)[sel[it.id]],k=c?c[0]:"Rosewood";openDlg(it.name+" - "+k,IMG+it.sheetFor[k]+".jpg")};b.appendChild(m2)}
   if(it.sizes){
     b.appendChild(el("div",{"class":"colorlabel"},"Size: <b>"+esc(sizeLabel(it))+"</b>"));
     var sg=el("div",{"class":"sizes",role:"group","aria-label":it.name+" sizes"});
