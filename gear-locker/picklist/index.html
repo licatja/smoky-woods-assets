@@ -159,7 +159,7 @@
       <div class="txt">
         <p class="eyebrow">Gear Locker&trade; by Smoky Woods &middot; Corporate pick list</p>
         <h1>Build your team gear list</h1>
-        <p class="lede">Choose products and colors, enter how many you need, and send us the list. We'll come back with a quote that includes your logo engraving, setup and shipping.</p>
+        <p class="lede">Choose products and colors, enter how many you need, and send us the list. Prices include your logo engraving. We'll come back with a final quote.</p>
         <ol class="steps"><li><b>1</b>Pick products and colors</li><li><b>2</b>Enter quantities</li><li><b>3</b>Send us your list</li></ol>
       </div>
     </div>
@@ -184,7 +184,7 @@
         <div class="big" id="estrow" hidden><span>Estimate</span><span id="tt">$0</span></div>
       </div>
       <div class="flags" id="flags"></div>
-      <p class="disc" id="disc">This is an estimate based on the per-piece prices shown. Items without a price are priced in your quote. The final quote adds logo setup, any extra engraving, shipping and tax, and confirms stock.</p>
+      <p class="disc" id="disc">This is an estimate based on the per-piece prices shown, which include your logo engraving. Items without a price are priced in your quote. The final quote adds shipping, sales tax and any credit card fee, and confirms stock.</p>
       <form id="sendform" novalidate>
         <div class="row2">
           <label><span>Your name <i>*</i></span><input id="gl-name" name="name" autocomplete="name" required></label>
@@ -317,7 +317,7 @@ function listText(){var tq=0,tt=0,priced=true,L=["GEAR LOCKER PICK LIST","Name: 
   if(form.phone.value)L.push("Phone: "+form.phone.value);if(form.needby.value)L.push("Needed in hand by: "+form.needby.value);L.push("");
   list.forEach(function(l){var r=lineInfo(l);tq+=l.qty;if(r.amt==null)priced=false;else tt+=r.amt;
     L.push(l.qty+" x "+r.name+" - "+l.color+(r.k==="low"?" [LOW STOCK]":r.k==="out"?" [OUT OF STOCK]":"")+(r.unit!=null?" @ "+money(r.unit)+" = "+money(r.amt):""))});
-  L.push("","Total pieces: "+tq);if(tt>0)L.push((priced?"Estimate: ":"Estimate for priced items: ")+money(tt)+" (before setup, engraving extras, shipping and tax)"+(priced?"":"; other items priced in the quote"));
+  L.push("","Total pieces: "+tq);if(tt>0)L.push((priced?"Estimate: ":"Estimate for priced items: ")+money(tt)+" (engraving included; before shipping, sales tax and any card fee)"+(priced?"":"; other items priced in the quote"));
   if(form.notes.value.trim())L.push("","Notes: "+form.notes.value.trim());return L.join("\n")}
 form.addEventListener("submit",function(e){e.preventDefault();if($("send").disabled)return;var txt=listText(),m=$("sent");
   if(SEND_MODE==="email"&&SEND_TO){location.href="mailto:"+SEND_TO+"?subject="+encodeURIComponent("Gear Locker pick list - "+form.company.value)+"&body="+encodeURIComponent(txt);
