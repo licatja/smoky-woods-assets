@@ -72,6 +72,8 @@
 #glpick .note{padding:6px 9px; font-size:13px; border-left:3px solid}
 #glpick .note.low{border-color:var(--low); background:var(--low-bg); color:var(--low-ink)}
 #glpick .note.out{border-color:var(--out); background:var(--out-bg); color:var(--out-ink)}
+#glpick .case{margin-top:auto; padding-top:6px; font-size:13px; color:var(--muted)}
+#glpick .case + .addrow{margin-top:0}
 #glpick .addrow{display:flex; gap:8px; margin-top:auto; padding-top:4px}
 #glpick .qty{width:78px; border:1px solid var(--line); border-radius:8px; padding:8px; background:#fff; text-align:center}
 #glpick .add{flex:1; border:0; border-radius:8px; padding:9px 12px; font-weight:700; background:var(--padauk); color:#fff; cursor:pointer}
@@ -222,6 +224,8 @@ var SEND_TO = "jim@smoky-woods.com";
 var FORM_LINK = "";          // prefilled form link with XLISTX where the list goes
 // Prices per piece by card id and style label, e.g. {t20:{"No handle":24,"With handle":27}}. Empty = no prices shown.
 var PRICES = {"t20":{"No handle":23,"With handle":27},"t20e":{"No handle":23,"With handle":27},"t20k":{"No handle":23,"With handle":27},"t20s":{"No handle":23,"With handle":27},"t30":{"No handle":27,"With handle":31},"t30e":{"No handle":27,"With handle":31},"t40":{"No handle":32,"With handle":36},"t40e":{"No handle":32,"With handle":36},"b32":{"Powder coated":35,"Electroplated":35},"m12":{"Mug":25},"w12":{"Wine tumbler":22},"bbq":{"Set":80},"spat":{"Spatula":25},"knife":{"Pocket knife":23},"ammo":{"Ammo can":50},"mvt":{"Tray":35},"mch":{"11-piece set":80},"msb":{"5-piece set":45},"mhb":{"3-piece set":50},"mcb":{"Board":50},"mco":{"5-piece set":40},"mnp":{"Name plate":25},"mph":{"Pen holder":25},"mpf":{"5 x 7 frame":30},"jrn":{"Journal":23},"boxc":{"Cigar box":25},"boxm":{"Medium":25,"Large":40,"XL":45},"valet":{"Medium":35,"Large":50}};
+var CASES = {"t20":25,"t20e":25,"t20k":25,"t20s":25,"t30":25,"t30e":25,"t40":25,"t40e":25,"b32":25,"m12":25,"w12":25,"bbq":6,"spat":24,"knife":12,"jrn":12,"mvt":12,"mch":4,"msb":5,"mhb":5,"mcb":5,"mco":12,"mnp":12,"mph":12,"mpf":12,"boxc":24,"boxm":{"Medium":24,"Large":6,"XL":6},"valet":{"Medium":20,"Large":8}};
+function caseText(c){var v=CASES[c.id];if(v==null)return "";if(typeof v==="number")return "Case size: "+v;return "Case size: "+c.styles.map(function(x){return v[x.label]!=null?v[x.label]+" ("+x.label+")":""}).filter(Boolean).join(" &middot; ")}
 var LOW_NOTE = "Low stock: this color may ship later than the rest of your order.";
 var OUT_NOTE = "Out of stock right now: you can still add it. It may ship later, or we'll suggest the closest match in your quote.";
 /* ========================================== */
@@ -280,6 +284,7 @@ function cardEl(c){
     st.colors.forEach(function(x,i){var k=stock(st,x[0]);var bt=el("button",{"class":"sw"+(k?" "+k:""),type:"button",title:x[0]+(k==="low"?" (low stock)":k==="out"?" (out of stock)":""),"aria-label":x[0]+(k==="low"?" (low stock)":k==="out"?" (out of stock)":""),"aria-pressed":String(ci===i)});
       swStyle(bt,x[1]);bt.onclick=function(){s.ci=i;renderCatalog()};sw.appendChild(bt)});b.appendChild(sw)}
   if(stk)b.appendChild(el("p",{"class":"note "+stk},esc(stk==="low"?LOW_NOTE:OUT_NOTE)));
+  var ct=caseText(c);if(ct)b.appendChild(el("p",{"class":"case"},ct));
   var row=el("div",{"class":"addrow"});
   var q=el("input",{"class":"qty",type:"number",min:"1",step:"1",inputmode:"numeric","aria-label":"Quantity for "+c.name,id:"q-"+c.id,value:s.q});q.placeholder="Qty";
   var add=el("button",{"class":"add",type:"button"},"Add to list");
