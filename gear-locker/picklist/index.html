@@ -184,7 +184,7 @@
         <div class="big" id="estrow" hidden><span>Estimate</span><span id="tt">$0</span></div>
       </div>
       <div class="flags" id="flags"></div>
-      <p class="disc" id="disc">We'll send you a quote with pricing for your list. It will include logo setup, engraving, shipping and tax, and confirm stock.</p>
+      <p class="disc" id="disc">This is an estimate based on the per-piece prices shown. Items without a price are priced in your quote. The final quote adds logo setup, any extra engraving, shipping and tax, and confirms stock.</p>
       <form id="sendform" novalidate>
         <div class="row2">
           <label><span>Your name <i>*</i></span><input id="gl-name" name="name" autocomplete="name" required></label>
@@ -220,7 +220,7 @@ var SEND_MODE = "email";   // "preview", "email" (opens their email to SEND_TO) 
 var SEND_TO = "jim@smoky-woods.com";
 var FORM_LINK = "";          // prefilled form link with XLISTX where the list goes
 // Prices per piece by card id and style label, e.g. {t20:{"No handle":24,"With handle":27}}. Empty = no prices shown.
-var PRICES = {};
+var PRICES = {t20:{"No handle":22,"With handle":25}, t20e:{"No handle":22,"With handle":25}, t20s:{"Skinny":22}};
 var LOW_NOTE = "Low stock: this color may ship later than the rest of your order.";
 var OUT_NOTE = "Out of stock right now: you can still add it. It may ship later, or we'll suggest the closest match in your quote.";
 /* ========================================== */
@@ -300,7 +300,8 @@ function renderList(){
     var x=el("button",{"class":"x",type:"button"},"Remove");x.onclick=function(){list.splice(idx,1);renderList()};
     ctl.appendChild(qi);ctl.appendChild(x);li.appendChild(ctl);ul.appendChild(li)});
   $("empty").hidden=list.length>0;$("tot").hidden=!list.length;$("tq").textContent=tq;
-  var showEst=list.length&&priced;$("estrow").hidden=!showEst;$("tt").textContent=money(tt);
+  var anyP=list.some(function(l){return lineInfo(l).amt!=null});var showEst=list.length&&anyP;$("estrow").hidden=!showEst;$("tt").textContent=money(tt);
+  $("estrow").firstChild.textContent=priced?"Estimate":"Estimate so far";
   $("mbart").textContent=tq+" piece"+(tq===1?"":"s")+(showEst?" · "+money(tt):"");
   var f=$("flags");f.innerHTML="";
   if(lows)f.appendChild(el("p",{"class":"note low"},lows+" line"+(lows>1?"s are":" is")+" low stock and may ship later."));
@@ -315,7 +316,7 @@ function listText(){var tq=0,tt=0,priced=true,L=["GEAR LOCKER PICK LIST","Name: 
   if(form.phone.value)L.push("Phone: "+form.phone.value);if(form.needby.value)L.push("Needed in hand by: "+form.needby.value);L.push("");
   list.forEach(function(l){var r=lineInfo(l);tq+=l.qty;if(r.amt==null)priced=false;else tt+=r.amt;
     L.push(l.qty+" x "+r.name+" - "+l.color+(r.k==="low"?" [LOW STOCK]":r.k==="out"?" [OUT OF STOCK]":"")+(r.unit!=null?" @ "+money(r.unit)+" = "+money(r.amt):""))});
-  L.push("","Total pieces: "+tq);if(priced)L.push("Estimate: "+money(tt)+" (before setup, engraving extras, shipping and tax)");
+  L.push("","Total pieces: "+tq);if(tt>0)L.push((priced?"Estimate: ":"Estimate for priced items: ")+money(tt)+" (before setup, engraving extras, shipping and tax)"+(priced?"":"; other items priced in the quote"));
   if(form.notes.value.trim())L.push("","Notes: "+form.notes.value.trim());return L.join("\n")}
 form.addEventListener("submit",function(e){e.preventDefault();if($("send").disabled)return;var txt=listText(),m=$("sent");
   if(SEND_MODE==="email"&&SEND_TO){location.href="mailto:"+SEND_TO+"?subject="+encodeURIComponent("Gear Locker pick list - "+form.company.value)+"&body="+encodeURIComponent(txt);
