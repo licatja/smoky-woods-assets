@@ -225,6 +225,7 @@ var LOW_NOTE = "Low stock: this color may ship later than the rest of your order
 var OUT_NOTE = "Out of stock right now: you can still add it. It may ship later, or we'll suggest the closest match in your quote.";
 /* ========================================== */
 if(window.GLPICK_BASE)BASE=window.GLPICK_BASE;
+var THUMBS = window.GLPICK_THUMBS || "";  // client copy: folder of logo-engraved thumbnails (same file names)
 var $=function(id){return document.getElementById(id)};
 if(!DRAFT)$("draftbar").hidden=true;
 var CAT=null, STOCK={pieces:{},low_under:100}, sel={}, list=[];
@@ -262,7 +263,7 @@ function sheetsFor(c,st,ci){var pages=[],col=st.colors[ci];if(col&&col[3])pages.
 function cardEl(c){
   var s=S(c), st=c.styles[s.st], ci=s.ci, shown=ci!=null?ci:defColor(st), col=st.colors[shown];
   var a=el("article",{"class":"card"}), w=el("div",{"class":"well",title:"View sell sheet"});
-  if(col&&col[2])w.appendChild(el("img",{src:BASE+col[2],alt:c.name+", "+col[0],loading:"lazy"}));else w.appendChild(el("div",{"class":"ph"},"Photo coming soon"));
+  if(col&&col[2])w.appendChild(el("img",{src:(THUMBS&&col[2].indexOf("thumbs/")===0?THUMBS+col[2].slice(7):BASE+col[2]),alt:c.name+", "+col[0],loading:"lazy"}));else w.appendChild(el("div",{"class":"ph"},"Photo coming soon"));
   var pr=price(c,st);if(pr!=null)w.appendChild(el("span",{"class":"price"},money(pr)+" ea"));
   var pages=sheetsFor(c,st,shown);if(pages.length)w.onclick=function(){openSheets(c.name+" ("+st.label+")",pages)};else w.style.cursor="default";
   a.appendChild(w);
