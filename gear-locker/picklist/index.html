@@ -220,7 +220,7 @@ var SEND_MODE = "email";   // "preview", "email" (opens their email to SEND_TO) 
 var SEND_TO = "jim@smoky-woods.com";
 var FORM_LINK = "";          // prefilled form link with XLISTX where the list goes
 // Prices per piece by card id and style label, e.g. {t20:{"No handle":24,"With handle":27}}. Empty = no prices shown.
-var PRICES = {t20:{"No handle":22,"With handle":25}, t20e:{"No handle":22,"With handle":25}, t20s:{"Skinny":22}};
+var PRICES = {t20:{"No handle":22,"With handle":25}, t20e:{"No handle":22,"With handle":25}, t20k:{"No handle":22,"With handle":25}, t20s:{"No handle":22,"With handle":25}};
 var LOW_NOTE = "Low stock: this color may ship later than the rest of your order.";
 var OUT_NOTE = "Out of stock right now: you can still add it. It may ship later, or we'll suggest the closest match in your quote.";
 /* ========================================== */
@@ -332,5 +332,4 @@ j("catalog.json").then(function(c){CAT=c;return j("stock.json").then(function(s)
   renderCatalog();renderList()}).catch(function(){$("catalog").innerHTML='<p class="loading">Products could not load. Please refresh the page, or email us and we\'ll send the list.</p>'});
 })();
 </script>
-
 </body></html>
